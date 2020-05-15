@@ -1,5 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MusicPlayer.WPF.Styles">
+
+    <Color x:Key="BackgroundPrimaryColor">#090909</Color>
+    <Color x:Key="BackgroundAccentColor">#272727</Color>
+    <Color x:Key="ButtonPrimaryColor">#D72323</Color>
+    <Color x:Key="ButtonAccentColor">#EEEEEE</Color>
     
+    <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource BackgroundPrimaryColor}"/>
+    <SolidColorBrush x:Key="BackgroundAccentBrush" Color="{StaticResource BackgroundAccentColor}"/>
+    <SolidColorBrush x:Key="ButtonPrimaryBrush" Color="{StaticResource ButtonPrimaryColor}"/>
+    <SolidColorBrush x:Key="ButtonSecondaryBrush" Color="{StaticResource ButtonAccentColor}"/>
+
+    
+
 </ResourceDictionary>

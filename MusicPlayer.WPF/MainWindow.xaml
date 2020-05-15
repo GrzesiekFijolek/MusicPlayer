@@ -3,10 +3,93 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MusicPlayer.WPF"
+        xmlns:local="clr-namespace:MusicPlayer.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        xmlns:uc="clr-namespace:MusicPlayer.WPF.UserControls"
+        d:DataContext="{d:DesignInstance local:MainViewModel, IsDesignTimeCreatable=True}"
+        MaxHeight="{Binding WindowHeigh}"
+        MaxWidth="{Binding WindowWith}"
+        Width="{Binding WindowWith}"
+        Height="{Binding WindowHeigh}"
+        ResizeMode="NoResize"  
+        Title="{Binding AppName}"
+        Background="{StaticResource BackgroundPrimaryBrush}">
+    
+    <Grid Background="{StaticResource BackgroundPrimaryBrush}"
+          Style="{StaticResource WindowMargins}">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--row 0-->
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="3">
+
+            <uc:SongInfoLabel LabelContent="Actual played track information placeholder"/>
+        </Grid>
+
+        <!--row 1-->
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="3">
+
+            <Rectangle Fill="#ACACAC"
+                       Margin="30"/>
+        </Grid>
+         <!--row 2-->
+        <Grid Grid.Row="2"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+
+            <uc:PlayButton IconId="61470"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                <uc:PlayButton IconId="61512"/>
+                <uc:PlayButton IconId="61764"/>
+                <uc:PlayButton IconId="61521"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Grid.Column="2">
+
+            <StackPanel Margin="2">
+                <Label Content="VOLUME"
+                       Foreground="{StaticResource ButtonPrimaryBrush}"
+                       FontSize="{StaticResource VolumeFontSize}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+                <Slider Style="{StaticResource MusicSlider}"/>
+
+            </StackPanel>
+            
+        </Grid>
+        
+         <!--row 3-->
+
+        <Grid Grid.Row="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="3">
+
+            <Slider Style="{StaticResource MusicSlider}"/>
+        </Grid>
 
     </Grid>
+      
 </Window>

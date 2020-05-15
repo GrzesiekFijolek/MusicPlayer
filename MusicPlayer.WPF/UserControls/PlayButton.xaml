@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="MusicPlayer.WPF.UserControls.PlayButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MusicPlayer.WPF.UserControls" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <fa:FontAwesome Name="FontAwesome" 
+                    Style="{StaticResource PlayButton}"
+                             >
+        <fa:FontAwesome.RenderTransform>
+            <ScaleTransform CenterX="25"
+                            CenterY="25"
+                            ScaleX="1"
+                            ScaleY="1"
+                            x:Name="ButtonScaleTransform"/>
+        </fa:FontAwesome.RenderTransform>
+
+        <fa:FontAwesome.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard Storyboard="{StaticResource MouseEnterStoryboard}"/>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard Storyboard="{StaticResource MouseLeaveStoryboard}"/>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseDown">
+                <BeginStoryboard Storyboard="{StaticResource MouseDownStoryboard}"/>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseUp">
+                <BeginStoryboard Storyboard="{StaticResource MouseUpStoryboard}"/>
+            </EventTrigger>
+        </fa:FontAwesome.Triggers>
+    </fa:FontAwesome>
+</UserControl>

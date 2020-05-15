@@ -27,5 +27,7 @@ namespace MusicPlayer.WPF
 
             this.DataContext = new MainViewModel();
         }
+
+
     }
 }
