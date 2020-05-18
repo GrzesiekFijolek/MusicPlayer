@@ -7,7 +7,11 @@
     <system:Double x:Key="ButtonsFontSize">35</system:Double>
     <system:Double x:Key="VolumeFontSize">22</system:Double>
     <system:Double x:Key="SongInfoFontSize">20</system:Double>
+    <system:Double x:Key="TrackValueFontSize">14</system:Double>
 
     <!-- Margins -->
     <Thickness x:Key="SongInfoMargin" Left="4" Top="4" Right="4" Bottom="4"/>
+    <Thickness x:Key="TrackLabelMargin" Left="4" Top="0" Right="4" Bottom="0"/>
+    <Thickness x:Key="MusicSliderMargin" Left="2" Top="20" Right="2" Bottom="20"/>
+    <Thickness x:Key="VolumeSliderMargin" Left="10" Top="18" Right="10" Bottom="18"/>
 </ResourceDictionary>

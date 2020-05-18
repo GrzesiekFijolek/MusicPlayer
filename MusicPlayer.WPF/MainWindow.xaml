@@ -32,7 +32,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <!--row 0-->
         <Grid Grid.Row="0"
               Grid.Column="0"
@@ -57,10 +57,10 @@
               Grid.Column="0" 
               Grid.ColumnSpan="3"
               Margin="50, 10, 50, 10">
-              
+
             <Rectangle Fill="#ACACAC"
                        Margin="30"/>
-            
+
         </Grid>
         <!--row 2-->
         <Grid Grid.Row="2"
@@ -76,20 +76,20 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                 <uc:PlayButton IconId="61512"
-                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
+                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
                 <uc:PlayButton IconId="{Binding PlayIcon}"
                                Command="{Binding PlayButtonCommand}"
-                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
+                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
                 <uc:PlayButton IconId="61521"
-                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
+                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
             </StackPanel>
 
             <uc:PlayButton IconId="61564"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"
                            Command="{Binding OpenFileCommand}"/>
-            
-            
+
+
 
         </Grid>
 
@@ -103,7 +103,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-                <Slider Style="{StaticResource MusicSlider}"
+                <Slider Style="{StaticResource VolumeSlider}"
                         Minimum="0"
                         Maximum="100"
                         Value="{Binding ActualVolume}"
@@ -119,12 +119,38 @@
               Grid.Column="0"
               Grid.ColumnSpan="3">
 
-            <Slider Style="{StaticResource MusicSlider}"
-                    TickFrequency="1"
-                    Maximum="{Binding MusicSliderMaximum}"
-                    Minimum="0"
-                    Value="{Binding MusicSliderValue, Mode=TwoWay}"
-                    ValueChanged="MusicSlider_ValueChanged"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="55"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="{Binding ActualMusicTrackPosition}"
+                           Style="{StaticResource TrackDurationlabel}" HorizontalAlignment="Left" Margin="4,0,0,0"/>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Slider Style="{StaticResource MusicSlider}"
+                        TickFrequency="1"
+                        Maximum="{Binding MusicSliderMaximum}"
+                        Minimum="0"
+                        Value="{Binding MusicSliderValue}"
+                        ValueChanged="MusicSlider_ValueChanged"
+                        IsEnabled="{Binding IsMusicTrackLoaded}"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Label Content="{Binding MusicTrackDuration}"
+                           Style="{StaticResource TrackDurationlabel}"/>
+                </Grid>
+
+            </Grid>
         </Grid>
 
     </Grid>

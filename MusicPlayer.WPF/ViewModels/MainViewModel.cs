@@ -1,5 +1,6 @@
 ﻿using FontAwesome.WPF;
 using Microsoft.Win32;
+using MusicPlayer.WPF.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,13 +21,24 @@ namespace MusicPlayer.WPF.ViewModels
     {
         #region private fields
 
+        /// <summary>
+        /// both are required for togle stop/play button
+        /// the numbers refer to <see cref="FontAwesomeIcon"/> values
+        /// </summary>
         private readonly int _pauseCircleIcon = 62091;
         private readonly int _playCircleIcon = 61764;
 
 
+        /// <summary>
+        /// it causes to play music
+        /// </summary>
         private MediaPlayer _player = new MediaPlayer();
 
+        /// <summary>
+        /// required for changing music slider values
+        /// </summary>
         private DispatcherTimer _timer;
+
 
         /// <summary>
         /// it is always equals to <see cref="MusicSliderValue"/> but is required for <see cref="SliderValueChanged(int)"/>
@@ -43,24 +55,62 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         public int WindowWith { get; set; } = 500;
 
+
         /// <summary>
         /// startup window heigh
         /// </summary>
         public int WindowHeigh { get; set; } = 500;
+        
 
         /// <summary>
         /// an application name
         /// </summary>
         public string AppName { get; set; } = "MP3 Music Player";
 
-        private bool _isPlayButtonEnabled;
+        private string _musicTrackDuration;
 
-        public bool IsPlayButtonEnabled
+        /// <summary>
+        /// the track duration in mm:ss
+        /// </summary>
+        public string MusicTrackDuration
         {
-            get { return _isPlayButtonEnabled; }
+            get { return _musicTrackDuration; }
+            set
+            {
+                _musicTrackDuration = value;
+                OnPropertyChanged(nameof(MusicTrackDuration));
+            }
+        }
+
+
+        /// <summary>
+        /// the actual track position in mm:ss
+        /// </summary>
+        private string _actualMusicTrackPosition;
+
+        public string ActualMusicTrackPosition
+        {
+            get { return _actualMusicTrackPosition; }
+            set 
+            {
+                _actualMusicTrackPosition = value;
+                OnPropertyChanged(nameof(ActualMusicTrackPosition));
+            }
+        }
+
+
+
+        /// <summary>
+        /// indicates if some buttons are enabled
+        /// </summary>
+        private bool _isMusicTrackLoaded;
+
+        public bool IsMusicTrackLoaded
+        {
+            get { return _isMusicTrackLoaded; }
             set { 
-                _isPlayButtonEnabled = value;
-                OnPropertyChanged("IsPlayButtonEnabled");
+                _isMusicTrackLoaded = value;
+                OnPropertyChanged(nameof(IsMusicTrackLoaded));
             }
         }
 
@@ -75,10 +125,14 @@ namespace MusicPlayer.WPF.ViewModels
             get { return _musicSliderMaximum; }
             set { 
                     _musicSliderMaximum = value;
-                    OnPropertyChanged("MusicSliderMaximum");
+                    OnPropertyChanged(nameof(MusicSliderMaximum));
                 }
         }
 
+
+        /// <summary>
+        /// the icon of button for stop and play functions
+        /// </summary>
         private int _playIcon;
 
         public int PlayIcon
@@ -87,7 +141,7 @@ namespace MusicPlayer.WPF.ViewModels
             set 
             { 
                 _playIcon = value;
-                OnPropertyChanged("PlayIcon");
+                OnPropertyChanged(nameof(PlayIcon));
             }
         }
 
@@ -104,7 +158,7 @@ namespace MusicPlayer.WPF.ViewModels
             set
             {
                 _musicSliderValue = value;
-                OnPropertyChanged("MusicSliderValue");
+                OnPropertyChanged(nameof(MusicSliderValue));
             }
         }
 
@@ -119,7 +173,7 @@ namespace MusicPlayer.WPF.ViewModels
             set
             { 
                 _actualVolume = value;
-                OnPropertyChanged("ActualVolume");
+                OnPropertyChanged(nameof(ActualVolume));
             }
         }
 
@@ -131,7 +185,7 @@ namespace MusicPlayer.WPF.ViewModels
             set 
             { 
                 _musicTrackInfo = value;
-                OnPropertyChanged("MusicTrackInfo");
+                OnPropertyChanged(nameof(MusicTrackInfo));
             }
         }
 
@@ -147,7 +201,6 @@ namespace MusicPlayer.WPF.ViewModels
 
         #endregion
 
-        #region events
 
         public MainViewModel()
         {
@@ -156,19 +209,28 @@ namespace MusicPlayer.WPF.ViewModels
             MusicSliderMaximum = 100;
             ActualVolume = 50;
             PlayIcon = _playCircleIcon;
-            IsPlayButtonEnabled = false;
+            IsMusicTrackLoaded = false;
+
             PlayButtonCommand = new RelayCommand(PlayOrPause);
             OpenFileCommand = new RelayCommand(OpenFile);
 
             _player.MediaOpened += _player_MediaOpened;
+
         }
+
+
+        #region private methods
 
         private void _player_MediaOpened(object sender, EventArgs e)
         {
             MusicTrackInfo = Path.GetFileName(_player.Source.ToString());
             MusicSliderValue = 0;
             MusicSliderMaximum = (int)Double.Parse(_player.NaturalDuration.TimeSpan.TotalSeconds.ToString());
-            IsPlayButtonEnabled = true;
+            IsMusicTrackLoaded = true;
+            _timer.Stop();
+            PlayIcon = _playCircleIcon;
+            ActualMusicTrackPosition = "0:00";
+            MusicTrackDuration = _player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
         }
 
 
@@ -181,12 +243,14 @@ namespace MusicPlayer.WPF.ViewModels
         {
             _musicSliderValueHelper = MusicSliderValue;
             MusicSliderValue++;
+            ActualMusicTrackPosition = _player.Position.ToString(@"mm\:ss");
         }
+
 
         #endregion
 
 
-        #region Methods
+        #region public methods
 
         /// <summary>
         /// It sets timer for manipulating music slider value
@@ -263,6 +327,8 @@ namespace MusicPlayer.WPF.ViewModels
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             _player.Open(new Uri(files[0]));
         }
+
+        
 
         #endregion
     }
