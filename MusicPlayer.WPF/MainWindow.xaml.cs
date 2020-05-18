@@ -1,4 +1,5 @@
-﻿using MusicPlayer.WPF.ViewModels;
+﻿using Microsoft.Win32;
+using MusicPlayer.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,35 @@ namespace MusicPlayer.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel _vm;
         public MainWindow()
         {
             InitializeComponent();
 
             this.DataContext = new MainViewModel();
+            _vm = (MainViewModel)DataContext;
         }
 
+        private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = sender as Slider;
+            _vm.MusicSliderValueChanged((int)slider.Value);
+        }
 
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var slider = sender as Slider;
+            _vm.VolumeSliderValueChanged((int)slider.Value);
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            _vm.File_Dropped(sender, e);
+        }
+
+        private void PlayButton_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Border x:Name="asdf"
+    <Border x:Name="SongInfoBorder"
             Style="{StaticResource OuterBorderForInnerShadow}">
         <Border Style="{StaticResource InternalBorderForInnerShadow}">
             <Label Style="{StaticResource SongInfo}" 
                    x:Name="InnerLabel"
-                   Content="{Binding Path=(local:SongInfoLabel.LabelContent), ElementName=asdf, Mode=TwoWay}"/>
+                   Content="{Binding Path=(local:SongInfoLabel.LabelContent), ElementName=SongInfoBorder, Mode=TwoWay}"/>
         </Border>
     </Border>
 </UserControl>

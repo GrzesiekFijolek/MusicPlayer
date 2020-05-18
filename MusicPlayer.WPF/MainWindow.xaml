@@ -14,15 +14,17 @@
         ResizeMode="NoResize"  
         Title="{Binding AppName}"
         Background="{StaticResource BackgroundPrimaryBrush}">
-    
+
     <Grid Background="{StaticResource BackgroundPrimaryBrush}"
-          Style="{StaticResource WindowMargins}">
-        
+          Style="{StaticResource WindowMargins}"
+          AllowDrop="True"
+          Drop="Grid_Drop">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -35,34 +37,60 @@
         <Grid Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="47*"/>
+            </Grid.ColumnDefinitions>
 
-            <uc:SongInfoLabel LabelContent="Actual played track information placeholder"/>
+            <uc:SongInfoLabel LabelContent="{Binding MusicTrackInfo}" 
+                              Grid.ColumnSpan="2" 
+                              Grid.RowSpan="2"/>
+
         </Grid>
 
         <!--row 1-->
         <Grid Grid.Row="1"
-              Grid.Column="0"
-              Grid.ColumnSpan="3">
-
+              Grid.Column="0" 
+              Grid.ColumnSpan="3"
+              Margin="50, 10, 50, 10">
+              
             <Rectangle Fill="#ACACAC"
                        Margin="30"/>
+            
         </Grid>
-         <!--row 2-->
+        <!--row 2-->
         <Grid Grid.Row="2"
               Grid.Column="0"
               Grid.ColumnSpan="2">
 
             <uc:PlayButton IconId="61470"
                            HorizontalAlignment="Left"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center"
+                           />
 
             <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                <uc:PlayButton IconId="61512"/>
-                <uc:PlayButton IconId="61764"/>
-                <uc:PlayButton IconId="61521"/>
+                <uc:PlayButton IconId="61512"
+                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
+                <uc:PlayButton IconId="{Binding PlayIcon}"
+                               Command="{Binding PlayButtonCommand}"
+                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
+                <uc:PlayButton IconId="61521"
+                               IsEnabled="{Binding IsPlayButtonEnabled}"/>
             </StackPanel>
+
+            <uc:PlayButton IconId="61564"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Command="{Binding OpenFileCommand}"/>
+            
+            
+
         </Grid>
 
         <Grid Grid.Row="2"
@@ -75,21 +103,30 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-                <Slider Style="{StaticResource MusicSlider}"/>
+                <Slider Style="{StaticResource MusicSlider}"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="{Binding ActualVolume}"
+                        ValueChanged="VolumeSlider_ValueChanged"/>
 
             </StackPanel>
-            
+
         </Grid>
-        
-         <!--row 3-->
+
+        <!--row 3-->
 
         <Grid Grid.Row="3"
               Grid.Column="0"
               Grid.ColumnSpan="3">
 
-            <Slider Style="{StaticResource MusicSlider}"/>
+            <Slider Style="{StaticResource MusicSlider}"
+                    TickFrequency="1"
+                    Maximum="{Binding MusicSliderMaximum}"
+                    Minimum="0"
+                    Value="{Binding MusicSliderValue, Mode=TwoWay}"
+                    ValueChanged="MusicSlider_ValueChanged"/>
         </Grid>
 
     </Grid>
-      
+
 </Window>

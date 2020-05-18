@@ -6,12 +6,13 @@
     <Color x:Key="BackgroundAccentColor">#272727</Color>
     <Color x:Key="ButtonPrimaryColor">#D72323</Color>
     <Color x:Key="ButtonAccentColor">#EEEEEE</Color>
+    <Color x:Key="ButtonDisabledColor">#ACACAC</Color>
     
     <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource BackgroundPrimaryColor}"/>
     <SolidColorBrush x:Key="BackgroundAccentBrush" Color="{StaticResource BackgroundAccentColor}"/>
     <SolidColorBrush x:Key="ButtonPrimaryBrush" Color="{StaticResource ButtonPrimaryColor}"/>
     <SolidColorBrush x:Key="ButtonSecondaryBrush" Color="{StaticResource ButtonAccentColor}"/>
+    <SolidColorBrush x:Key="ButtonDisabledBrush" Color="{StaticResource ButtonDisabledColor}"/>
 
-    
 
 </ResourceDictionary>

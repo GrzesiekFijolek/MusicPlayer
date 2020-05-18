@@ -19,23 +19,32 @@ namespace MusicPlayer.WPF.UserControls
     public partial class SongInfoLabel : UserControl
     {
 
-        public static readonly DependencyProperty dependencyProperty =
+        public static readonly DependencyProperty LabelContentProperty =
             DependencyProperty.Register("LabelContent", typeof(string), typeof(SongInfoLabel),
                 new PropertyMetadata(new PropertyChangedCallback(SetLabelText)));
         public SongInfoLabel()
         {
             InitializeComponent();
+            SetLabelHeight();
         }
 
         public string LabelContent
         {
-            get => (string)GetValue(dependencyProperty);
-            set => SetValue(dependencyProperty, value);
+            get => (string)GetValue(LabelContentProperty);
+            set => SetValue(LabelContentProperty, value);
         }
 
         private static void SetLabelText(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             (o as SongInfoLabel).InnerLabel.Content = e.NewValue.ToString();
+        }
+
+        private void SetLabelHeight()
+        {
+            double songInfoFontSize = (double)Application.Current.Resources["SongInfoFontSize"];
+            Thickness songInfoMargin = (Thickness)Application.Current.Resources["SongInfoMargin"];
+
+            this.Height = songInfoFontSize + songInfoMargin.Top + songInfoMargin.Bottom + 16;
         }
     }
 }

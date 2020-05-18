@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
 
+
     <fa:FontAwesome Name="FontAwesome" 
                     Style="{StaticResource PlayButton}"
                              >
@@ -33,6 +34,9 @@
             <EventTrigger RoutedEvent="MouseUp">
                 <BeginStoryboard Storyboard="{StaticResource MouseUpStoryboard}"/>
             </EventTrigger>
+
         </fa:FontAwesome.Triggers>
+    
     </fa:FontAwesome>
+        
 </UserControl>
