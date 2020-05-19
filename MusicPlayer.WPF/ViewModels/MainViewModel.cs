@@ -55,7 +55,7 @@ namespace MusicPlayer.WPF.ViewModels
         /// <summary>
         /// startup window width
         /// </summary>
-        public int WindowWith { get; set; } = 500;
+        public int WindowWith { get; set; } = 800;
 
 
         /// <summary>
@@ -255,7 +255,6 @@ namespace MusicPlayer.WPF.ViewModels
 
         #endregion
 
-
         public MainViewModel()
         {
             SetTimer();
@@ -270,6 +269,10 @@ namespace MusicPlayer.WPF.ViewModels
 
             _player.MediaOpened += _player_MediaOpened;
 
+            //placehoilders
+            TrackTitle = "Track title placeholder";
+            TrackAlbum = "Track album placeholder";
+            TrackArtist = "track artist placehiolder";
         }
 
 

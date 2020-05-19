@@ -9,8 +9,9 @@
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <ResourceDictionary Source="Styles/Values.xaml"/>
                 <ResourceDictionary Source="UserControls/Storyboards.xaml"/>
-                <ResourceDictionary Source="Styles/Styles.xaml"/>
-                
+                <ResourceDictionary Source="Styles/Others.xaml"/>
+                <ResourceDictionary Source="Styles/Sliders.xaml"/>
+                <ResourceDictionary Source="Styles/Labels.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

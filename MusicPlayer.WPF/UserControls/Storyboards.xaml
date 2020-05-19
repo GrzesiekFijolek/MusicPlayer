@@ -4,13 +4,13 @@
 
     <Storyboard x:Key="MouseEnterStoryboard">
         <ColorAnimation Duration="0:0:0.1"
-                        To="{StaticResource ButtonAccentColor}"
+                        To="{StaticResource AccentColor}"
                         Storyboard.TargetProperty="Foreground.Color"/>
     </Storyboard>
 
     <Storyboard x:Key="MouseLeaveStoryboard">
         <ColorAnimation Duration="0:0:0.1"
-                        To="{StaticResource ButtonPrimaryColor}"
+                        To="{StaticResource PrimaryColor}"
                         Storyboard.TargetProperty="Foreground.Color"/>
     </Storyboard>
 

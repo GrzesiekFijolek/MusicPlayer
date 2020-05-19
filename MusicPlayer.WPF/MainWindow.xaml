@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MusicPlayer.WPF.ViewModels"
         mc:Ignorable="d"
         xmlns:uc="clr-namespace:MusicPlayer.WPF.UserControls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         d:DataContext="{d:DesignInstance local:MainViewModel, IsDesignTimeCreatable=True}"
         MaxHeight="{Binding WindowHeigh}"
         MaxWidth="{Binding WindowWith}"
@@ -15,159 +16,107 @@
         Title="{Binding AppName}"
         Background="{StaticResource BackgroundPrimaryBrush}">
 
-    <Grid Background="{StaticResource BackgroundPrimaryBrush}"
-          Style="{StaticResource WindowMargins}"
-          AllowDrop="True"
-          Drop="Grid_Drop">
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!--row 0-->
-        <Grid Grid.Row="0"
-              Grid.Column="0"
-              Grid.ColumnSpan="3">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+    <StackPanel Background="{StaticResource BackgroundPrimaryBrush}"
+                AllowDrop="True"
+                Drop="Grid_Drop">
+        <Grid Background="{StaticResource BackgroundAccentBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="47*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <uc:SongInfoLabel LabelContent="{Binding MusicTrackInfo}" 
-                              Grid.ColumnSpan="2" 
-                              Grid.RowSpan="2"/>
+            <Grid Grid.Column="0">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            MaxWidth="300">
+                    <Border BorderThickness="2"
+                            BorderBrush="Red"
+                            Margin="10,0,0,0">
+                        <Image Source="{Binding TrackImage}"
+                       Style="{StaticResource TrackCoverImage}"/>
+                    </Border>
 
-        </Grid>
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Center">
+                        <Label Content="{Binding TrackTitle}"
+                               Style="{StaticResource TitleTagLabel}"/>
+                        <Label Content="{Binding TrackArtist}"
+                               Style="{StaticResource ArtistTagLabel}"/>
+                        <Label Content="{Binding TrackAlbum}"
+                               Style="{StaticResource AlbumTagLabel}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
 
-        <!--row 1-->
-        <Grid Grid.Row="1"
-              Grid.Column="0" 
-              Grid.ColumnSpan="2">
-
-            <Image Source="{Binding TrackImage}"
-                   Margin="20,20,20,20"/>
-
-        </Grid>
-
-        <Grid Grid.Row="1"
-              Grid.Column="3">
-            <StackPanel>
-                <Label Content="{Binding TrackArtist}"
-                       Foreground="{StaticResource ButtonPrimaryBrush}"
-                       FontSize="{StaticResource VolumeFontSize}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-                <Label Content="{Binding TrackTitle}"
-                       Foreground="{StaticResource ButtonPrimaryBrush}"
-                       FontSize="{StaticResource VolumeFontSize}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-            </StackPanel>
-        </Grid>
-        <!--row 2-->
-        <Grid Grid.Row="2"
-              Grid.Column="0"
-              Grid.ColumnSpan="2">
-
-            <uc:PlayButton IconId="61470"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           />
-
-            <StackPanel Orientation="Horizontal"
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                <uc:PlayButton IconId="61512"
+
+                    <uc:PlayButton IconId="61512"
                                IsEnabled="{Binding IsMusicTrackLoaded}"/>
-                <uc:PlayButton IconId="{Binding PlayIcon}"
-                               Command="{Binding PlayButtonCommand}"
-                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
-                <uc:PlayButton IconId="61521"
-                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
-            </StackPanel>
+                    
+                    <uc:PlayButton IconId="{Binding PlayIcon}"
+                                   Command="{Binding PlayButtonCommand}"
+                                   IsEnabled="{Binding IsMusicTrackLoaded}"/>
+                    
+                    <uc:PlayButton IconId="61521"
+                                   IsEnabled="{Binding IsMusicTrackLoaded}"/>
 
-            <uc:PlayButton IconId="61564"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Command="{Binding OpenFileCommand}"/>
+                    <uc:PlayButton IconId="61564"
+                                   Command="{Binding OpenFileCommand}"/>
 
+                </StackPanel>
+            </Grid>
 
+            <Grid Grid.Column="2">
 
-        </Grid>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
 
-        <Grid Grid.Row="2"
-              Grid.Column="2">
+                    <fa:FontAwesome Icon="VolumeUp"
+                                    Style="{StaticResource VolumeIcon}"/>
 
-            <StackPanel Margin="2">
-                <Label Content="VOLUME"
-                       Foreground="{StaticResource ButtonPrimaryBrush}"
-                       FontSize="{StaticResource VolumeFontSize}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-
-                <Slider Style="{StaticResource VolumeSlider}"
+                    <Slider Style="{StaticResource VolumeSlider}"
                         Minimum="0"
                         Maximum="100"
                         Value="{Binding ActualVolume}"
                         ValueChanged="VolumeSlider_ValueChanged"/>
-
-            </StackPanel>
-
+                    
+                </StackPanel>
+            </Grid>
         </Grid>
 
-        <!--row 3-->
+        <Grid Background="{StaticResource BackgroundAccentBrush}"
+              Height="70">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="3"
-              Grid.Column="0"
-              Grid.ColumnSpan="3">
+            <Grid Grid.Column="0">
+                <Label Content="{Binding ActualMusicTrackPosition}"
+                       Style="{StaticResource LeftTrackDurationlabel}"/>
+            </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="55"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="55"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="{Binding ActualMusicTrackPosition}"
-                           Style="{StaticResource TrackDurationlabel}" HorizontalAlignment="Left" Margin="4,0,0,0"/>
-                </Grid>
-
-                <Grid Grid.Column="1">
-                    <Slider Style="{StaticResource MusicSlider}"
+            <Grid Grid.Column="1">
+                <Slider Style="{StaticResource MusicSlider}"
                         TickFrequency="1"
                         Maximum="{Binding MusicSliderMaximum}"
                         Minimum="0"
                         Value="{Binding MusicSliderValue}"
                         ValueChanged="MusicSlider_ValueChanged"
                         IsEnabled="{Binding IsMusicTrackLoaded}"/>
-                </Grid>
+            </Grid>
 
-                <Grid Grid.Column="2">
-                    <Label Content="{Binding MusicTrackDuration}"
-                           Style="{StaticResource TrackDurationlabel}"/>
-                </Grid>
-
+            <Grid Grid.Column="2">
+                <Label Content="{Binding MusicTrackDuration}"
+                       Style="{StaticResource RightTrackDurationlabel}"/>
             </Grid>
         </Grid>
 
-    </Grid>
+    </StackPanel>
 
 </Window>
