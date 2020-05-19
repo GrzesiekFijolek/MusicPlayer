@@ -55,12 +55,27 @@
         <!--row 1-->
         <Grid Grid.Row="1"
               Grid.Column="0" 
-              Grid.ColumnSpan="3"
-              Margin="50, 10, 50, 10">
+              Grid.ColumnSpan="2">
 
-            <Rectangle Fill="#ACACAC"
-                       Margin="30"/>
+            <Image Source="{Binding TrackImage}"
+                   Margin="20,20,20,20"/>
 
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Grid.Column="3">
+            <StackPanel>
+                <Label Content="{Binding TrackArtist}"
+                       Foreground="{StaticResource ButtonPrimaryBrush}"
+                       FontSize="{StaticResource VolumeFontSize}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+                <Label Content="{Binding TrackTitle}"
+                       Foreground="{StaticResource ButtonPrimaryBrush}"
+                       FontSize="{StaticResource VolumeFontSize}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </StackPanel>
         </Grid>
         <!--row 2-->
         <Grid Grid.Row="2"

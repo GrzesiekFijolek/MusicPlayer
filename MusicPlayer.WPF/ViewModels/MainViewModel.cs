@@ -10,7 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using TagLib;
 
 namespace MusicPlayer.WPF.ViewModels
 {
@@ -67,8 +69,8 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         public string AppName { get; set; } = "MP3 Music Player";
 
-        private string _musicTrackDuration;
 
+        private string _musicTrackDuration;
         /// <summary>
         /// the track duration in mm:ss
         /// </summary>
@@ -83,11 +85,11 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
+        
+        private string _actualMusicTrackPosition;
         /// <summary>
         /// the actual track position in mm:ss
         /// </summary>
-        private string _actualMusicTrackPosition;
-
         public string ActualMusicTrackPosition
         {
             get { return _actualMusicTrackPosition; }
@@ -99,12 +101,11 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
-
+        
+        private bool _isMusicTrackLoaded;
         /// <summary>
         /// indicates if some buttons are enabled
         /// </summary>
-        private bool _isMusicTrackLoaded;
-
         public bool IsMusicTrackLoaded
         {
             get { return _isMusicTrackLoaded; }
@@ -114,12 +115,11 @@ namespace MusicPlayer.WPF.ViewModels
             }
         }
 
-
+        
+        private int _musicSliderMaximum;
         /// <summary>
         /// number of ticks in music slider which is equals to track duration 
         /// </summary>
-        private int _musicSliderMaximum;
-
         public int MusicSliderMaximum
         {   
             get { return _musicSliderMaximum; }
@@ -130,11 +130,11 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
+        
+        private int _playIcon;
         /// <summary>
         /// the icon of button for stop and play functions
         /// </summary>
-        private int _playIcon;
-
         public int PlayIcon
         {
             get { return _playIcon; }
@@ -146,12 +146,11 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
-
+        
+        private int _musicSliderValue;
         /// <summary>
         /// the actual value in music slider which indicates music track length in seconds
         /// </summary>
-        private int _musicSliderValue;
-
         public int MusicSliderValue
         {
             get { return _musicSliderValue; }
@@ -162,11 +161,11 @@ namespace MusicPlayer.WPF.ViewModels
             }
         }
 
+        
+        private int _actualVolume;
         /// <summary>
         /// the actual value in volume slider which indicates music track volume
         /// </summary>
-        private int _actualVolume;
-
         public int ActualVolume
         {
             get { return _actualVolume; }
@@ -189,7 +188,62 @@ namespace MusicPlayer.WPF.ViewModels
             }
         }
 
+        private string _trackAlbum;
+        /// <summary>
+        /// the album from <see cref="TagLib.Tag"/>
+        /// </summary>
+        public string TrackAlbum
+        {
+            get { return _trackAlbum; }
+            set 
+            { 
+                _trackAlbum = value;
+                OnPropertyChanged(nameof(TrackAlbum));
+            }
+        }
 
+        private string _trackTitle;
+        /// <summary>
+        /// the music track title from <see cref="TagLib.Tag"/>
+        /// </summary>
+        public string TrackTitle
+        {
+            get { return _trackTitle; }
+            set 
+            { 
+                _trackTitle = value;
+                OnPropertyChanged(nameof(TrackTitle));
+            }
+        }
+
+        private string _trackArtist;
+        /// <summary>
+        /// the track artist from <see cref="TagLib.Tag"/>
+        /// </summary>
+        public string TrackArtist
+        {
+            get { return _trackArtist; }
+            set 
+            { 
+                _trackArtist = value;
+                OnPropertyChanged(nameof(TrackArtist));
+            }
+        }
+
+        private ImageSource _trackImage;
+
+        /// <summary>
+        /// the track cover from <see cref="TagLib.Tag.Pictures"/>
+        /// </summary>
+        public ImageSource TrackImage
+        {
+            get { return _trackImage; }
+            set 
+            { 
+                _trackImage = value;
+                OnPropertyChanged(nameof(TrackImage));
+            }
+        }
 
         #endregion
 
@@ -231,6 +285,7 @@ namespace MusicPlayer.WPF.ViewModels
             PlayIcon = _playCircleIcon;
             ActualMusicTrackPosition = "0:00";
             MusicTrackDuration = _player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+            
         }
 
 
@@ -245,12 +300,6 @@ namespace MusicPlayer.WPF.ViewModels
             MusicSliderValue++;
             ActualMusicTrackPosition = _player.Position.ToString(@"mm\:ss");
         }
-
-
-        #endregion
-
-
-        #region public methods
 
         /// <summary>
         /// It sets timer for manipulating music slider value
@@ -270,7 +319,7 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         private void PlayOrPause()
         {
-            if(_timer.IsEnabled)
+            if (_timer.IsEnabled)
             {
                 _timer.Stop();
                 PlayIcon = _playCircleIcon;
@@ -293,9 +342,56 @@ namespace MusicPlayer.WPF.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 _player.Open(new Uri(openFileDialog.FileName));
+                SetTrackInfoFromTags(TagLib.File.Create(openFileDialog.FileName));
             }
-            
+
         }
+
+        /// <summary>
+        /// converts picture from <see cref="IPicture"/> to <see cref="System.Windows.Controls.Image"/>
+        /// </summary>
+        /// <param name="pictures"></param>
+        private void SetTrackImage(IPicture[] pictures)
+        {
+            IPicture picture = pictures[0];
+            MemoryStream memoryStream = new MemoryStream(picture.Data.Data);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            var image = System.Drawing.Image.FromStream(memoryStream);
+            var bitmap = new Bitmap(image);
+            IntPtr bmpPt = bitmap.GetHbitmap();
+            BitmapSource bitmapSource =
+             System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                   bmpPt,
+                   IntPtr.Zero,
+                   Int32Rect.Empty,
+                   BitmapSizeOptions.FromEmptyOptions());
+
+            //freeze bitmapSource and clear memory to avoid memory leaks
+            bitmapSource.Freeze();
+
+            TrackImage = bitmapSource;
+        }
+
+        /// <summary>
+        /// sets actual track information from its tags
+        /// </summary>
+        /// <param name="file"></param>
+        private void SetTrackInfoFromTags(TagLib.File file)
+        {
+            TrackArtist = file.Tag.Performers[0] ?? null;
+            TrackAlbum = file.Tag.Album ?? null;
+            TrackTitle = file.Tag.Title ?? null;
+
+            SetTrackImage(file.Tag.Pictures);
+    
+        }
+
+        #endregion
+
+
+        #region public methods
+
 
         /// <summary>
         /// called when the thumb position of volume slider was changed by the user
