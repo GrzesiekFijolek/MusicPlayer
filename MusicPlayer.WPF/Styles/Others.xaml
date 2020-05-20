@@ -27,12 +27,16 @@
     </Style>
 
 
-    <!-- image -->
-    <Style x:Key="TrackCoverImage" TargetType="{x:Type Image}">
-        <Setter Property="Width" Value="{StaticResource TrackCoverImageSize}"/>
-        <Setter Property="Height" Value="{StaticResource TrackCoverImageSize}"/>
+    <!-- images -->
+    <Style x:Key="ActualTrackCoverImage" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="{StaticResource ActualTrackCoverImageSize}"/>
+        <Setter Property="Height" Value="{StaticResource ActualTrackCoverImageSize}"/>
+    </Style>
+
+    <Style x:Key="ImageListViewItem" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="{StaticResource ImageSizeListViewItem}"/>
+        <Setter Property="Height" Value="{StaticResource ImageSizeListViewItem}"/>
     </Style>
 
 
-    
 </ResourceDictionary>

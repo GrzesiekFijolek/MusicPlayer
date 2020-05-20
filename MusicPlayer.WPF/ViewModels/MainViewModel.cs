@@ -1,8 +1,10 @@
 ﻿using FontAwesome.WPF;
 using Microsoft.Win32;
+using MusicPlayer.WPF.Models;
 using MusicPlayer.WPF.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -245,6 +247,40 @@ namespace MusicPlayer.WPF.ViewModels
             }
         }
 
+        private ObservableCollection<FileInformation> _files;
+        /// <summary>
+        /// the collection contains infomration needed for displaying track list 
+        /// </summary>
+        public ObservableCollection<FileInformation> Files
+        {
+            get { return _files; }
+            set 
+            {
+                _files = value;
+                while (value == null || value.Count < 7)
+                    _files.Add(null);
+
+                OnPropertyChanged(nameof(Files));
+            }
+        }
+
+        private FileInformation _selectedTrack;
+
+        /// <summary>
+        /// selected track from listview
+        /// </summary>
+        public FileInformation SelectedTrack
+        {
+            get { return _selectedTrack; }
+            set 
+            { 
+                _selectedTrack = value;
+                OnPropertyChanged(nameof(SelectedTrack));
+            }
+        }
+
+
+
         #endregion
 
         #region Commands
@@ -268,6 +304,7 @@ namespace MusicPlayer.WPF.ViewModels
             OpenFileCommand = new RelayCommand(OpenFile);
 
             _player.MediaOpened += _player_MediaOpened;
+            Files = new ObservableCollection<FileInformation>();
 
             //placehoilders
             TrackTitle = "Track title placeholder";
@@ -344,8 +381,11 @@ namespace MusicPlayer.WPF.ViewModels
             };
             if (openFileDialog.ShowDialog() == true)
             {
-                _player.Open(new Uri(openFileDialog.FileName));
-                SetTrackInfoFromTags(TagLib.File.Create(openFileDialog.FileName));
+                string path = openFileDialog.FileName;
+                _player.Open(new Uri(path));
+                SetTrackInfoFromTags(TagLib.File.Create(path));
+                string[] s = { path };
+                Files = FileInformation.CreateFilesList(s);
             }
 
         }
@@ -424,7 +464,12 @@ namespace MusicPlayer.WPF.ViewModels
         public void File_Dropped(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            Files = FileInformation.CreateFilesList(files);
+
             _player.Open(new Uri(files[0]));
+
+            
+           
         }
 
         

@@ -29,6 +29,8 @@ namespace MusicPlayer.WPF
 
             this.DataContext = new MainViewModel();
             _vm = (MainViewModel)DataContext;
+
+            TrackList.ItemsSource = _vm.Files;
         }
 
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,6 +48,7 @@ namespace MusicPlayer.WPF
         private void Grid_Drop(object sender, DragEventArgs e)
         {
             _vm.File_Dropped(sender, e);
+            
         }
 
         private void PlayButton_Loaded(object sender, RoutedEventArgs e)

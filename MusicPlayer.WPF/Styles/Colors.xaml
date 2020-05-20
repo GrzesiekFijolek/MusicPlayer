@@ -10,6 +10,9 @@
     <Color x:Key="ElementDisabledAccentColor">#5A5F5C</Color>
     <Color x:Key="SliderThumbColor">#ff6f00</Color>
 
+    <Color x:Key="ListViewItemEvenColor">#123456</Color>
+    <Color x:Key="ListViewItemOddColor">#654321</Color>
+
     <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource BackgroundPrimaryColor}"/>
     <SolidColorBrush x:Key="BackgroundAccentBrush" Color="{StaticResource BackgroundAccentColor}"/>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
@@ -17,6 +20,8 @@
     <SolidColorBrush x:Key="ElementDisabledBrush" Color="{StaticResource ElementDisabledColor}"/>
     <SolidColorBrush x:Key="ElementDisabledAccentBrush" Color="{StaticResource ElementDisabledAccentColor}"/>
     <SolidColorBrush x:Key="SliderThumbColorBrush" Color="{StaticResource SliderThumbColor}"/>
+    <SolidColorBrush x:Key="ListViewItemOddColorBrush" Color="{StaticResource ListViewItemOddColor}"/>
+    <SolidColorBrush x:Key="ListViewItemEvenColorBrush" Color="{StaticResource ListViewItemEvenColor}"/>
 
     <!--<LinearGradientBrush x:Key="gradient1" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Offset="0.2" Color="{StaticResource BackgroundAccentColor}"/>
