@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -43,6 +45,11 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         private DispatcherTimer _timer;
 
+        /// <summary>
+        /// the file which is played by <see cref="_player"/>
+        /// </summary>
+        private FileInformation _actualPlayedFile;
+
 
         /// <summary>
         /// it is always equals to <see cref="MusicSliderValue"/> but is required for <see cref="SliderValueChanged(int)"/>
@@ -64,12 +71,13 @@ namespace MusicPlayer.WPF.ViewModels
         /// startup window heigh
         /// </summary>
         public int WindowHeigh { get; set; } = 500;
-        
+
 
         /// <summary>
         /// an application name
         /// </summary>
         public string AppName { get; set; } = "MP3 Music Player";
+
 
 
         private string _musicTrackDuration;
@@ -87,7 +95,7 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
-        
+
         private string _actualMusicTrackPosition;
         /// <summary>
         /// the actual track position in mm:ss
@@ -95,7 +103,7 @@ namespace MusicPlayer.WPF.ViewModels
         public string ActualMusicTrackPosition
         {
             get { return _actualMusicTrackPosition; }
-            set 
+            set
             {
                 _actualMusicTrackPosition = value;
                 OnPropertyChanged(nameof(ActualMusicTrackPosition));
@@ -103,7 +111,7 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
-        
+
         private bool _isMusicTrackLoaded;
         /// <summary>
         /// indicates if some buttons are enabled
@@ -111,28 +119,30 @@ namespace MusicPlayer.WPF.ViewModels
         public bool IsMusicTrackLoaded
         {
             get { return _isMusicTrackLoaded; }
-            set { 
+            set
+            {
                 _isMusicTrackLoaded = value;
                 OnPropertyChanged(nameof(IsMusicTrackLoaded));
             }
         }
 
-        
+
         private int _musicSliderMaximum;
         /// <summary>
         /// number of ticks in music slider which is equals to track duration 
         /// </summary>
         public int MusicSliderMaximum
-        {   
+        {
             get { return _musicSliderMaximum; }
-            set { 
-                    _musicSliderMaximum = value;
-                    OnPropertyChanged(nameof(MusicSliderMaximum));
-                }
+            set
+            {
+                _musicSliderMaximum = value;
+                OnPropertyChanged(nameof(MusicSliderMaximum));
+            }
         }
 
 
-        
+
         private int _playIcon;
         /// <summary>
         /// the icon of button for stop and play functions
@@ -140,15 +150,15 @@ namespace MusicPlayer.WPF.ViewModels
         public int PlayIcon
         {
             get { return _playIcon; }
-            set 
-            { 
+            set
+            {
                 _playIcon = value;
                 OnPropertyChanged(nameof(PlayIcon));
             }
         }
 
 
-        
+
         private int _musicSliderValue;
         /// <summary>
         /// the actual value in music slider which indicates music track length in seconds
@@ -163,7 +173,7 @@ namespace MusicPlayer.WPF.ViewModels
             }
         }
 
-        
+
         private int _actualVolume;
         /// <summary>
         /// the actual value in volume slider which indicates music track volume
@@ -172,7 +182,7 @@ namespace MusicPlayer.WPF.ViewModels
         {
             get { return _actualVolume; }
             set
-            { 
+            {
                 _actualVolume = value;
                 OnPropertyChanged(nameof(ActualVolume));
             }
@@ -183,8 +193,8 @@ namespace MusicPlayer.WPF.ViewModels
         public string MusicTrackInfo
         {
             get { return _musicTrackInfo; }
-            set 
-            { 
+            set
+            {
                 _musicTrackInfo = value;
                 OnPropertyChanged(nameof(MusicTrackInfo));
             }
@@ -197,8 +207,8 @@ namespace MusicPlayer.WPF.ViewModels
         public string TrackAlbum
         {
             get { return _trackAlbum; }
-            set 
-            { 
+            set
+            {
                 _trackAlbum = value;
                 OnPropertyChanged(nameof(TrackAlbum));
             }
@@ -211,8 +221,8 @@ namespace MusicPlayer.WPF.ViewModels
         public string TrackTitle
         {
             get { return _trackTitle; }
-            set 
-            { 
+            set
+            {
                 _trackTitle = value;
                 OnPropertyChanged(nameof(TrackTitle));
             }
@@ -225,8 +235,8 @@ namespace MusicPlayer.WPF.ViewModels
         public string TrackArtist
         {
             get { return _trackArtist; }
-            set 
-            { 
+            set
+            {
                 _trackArtist = value;
                 OnPropertyChanged(nameof(TrackArtist));
             }
@@ -240,8 +250,8 @@ namespace MusicPlayer.WPF.ViewModels
         public ImageSource TrackImage
         {
             get { return _trackImage; }
-            set 
-            { 
+            set
+            {
                 _trackImage = value;
                 OnPropertyChanged(nameof(TrackImage));
             }
@@ -254,31 +264,15 @@ namespace MusicPlayer.WPF.ViewModels
         public ObservableCollection<FileInformation> Files
         {
             get { return _files; }
-            set 
+            set
             {
                 _files = value;
-                while (value == null || value.Count < 7)
+                while (value == null || value.Count < 10)
                     _files.Add(null);
 
                 OnPropertyChanged(nameof(Files));
             }
         }
-
-        private FileInformation _selectedTrack;
-
-        /// <summary>
-        /// selected track from listview
-        /// </summary>
-        public FileInformation SelectedTrack
-        {
-            get { return _selectedTrack; }
-            set 
-            { 
-                _selectedTrack = value;
-                OnPropertyChanged(nameof(SelectedTrack));
-            }
-        }
-
 
 
         #endregion
@@ -317,15 +311,16 @@ namespace MusicPlayer.WPF.ViewModels
 
         private void _player_MediaOpened(object sender, EventArgs e)
         {
-            MusicTrackInfo = Path.GetFileName(_player.Source.ToString());
-            MusicSliderValue = 0;
-            MusicSliderMaximum = (int)Double.Parse(_player.NaturalDuration.TimeSpan.TotalSeconds.ToString());
-            IsMusicTrackLoaded = true;
-            _timer.Stop();
-            PlayIcon = _playCircleIcon;
-            ActualMusicTrackPosition = "0:00";
-            MusicTrackDuration = _player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
-            
+            Application.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MusicTrackInfo = Path.GetFileName(_player.Source.ToString());
+                MusicSliderValue = 0;
+                MusicSliderMaximum = (int)Double.Parse(_player.NaturalDuration.TimeSpan.TotalSeconds.ToString());
+                IsMusicTrackLoaded = true;
+                ActualMusicTrackPosition = "0:00";
+                MusicTrackDuration = _player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                SetTrackInfoFromTags();
+            });
         }
 
 
@@ -382,9 +377,8 @@ namespace MusicPlayer.WPF.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 string path = openFileDialog.FileName;
-                _player.Open(new Uri(path));
-                SetTrackInfoFromTags(TagLib.File.Create(path));
                 string[] s = { path };
+
                 Files = FileInformation.CreateFilesList(s);
             }
 
@@ -420,14 +414,13 @@ namespace MusicPlayer.WPF.ViewModels
         /// sets actual track information from its tags
         /// </summary>
         /// <param name="file"></param>
-        private void SetTrackInfoFromTags(TagLib.File file)
+        private void SetTrackInfoFromTags()
         {
-            TrackArtist = file.Tag.Performers[0] ?? null;
-            TrackAlbum = file.Tag.Album ?? null;
-            TrackTitle = file.Tag.Title ?? null;
+            TrackArtist = _actualPlayedFile.File.Tag.Performers[0] ?? null;
+            TrackAlbum = _actualPlayedFile.File.Tag.Album ?? null;
+            TrackTitle = _actualPlayedFile.File.Tag.Title ?? null;
 
-            SetTrackImage(file.Tag.Pictures);
-    
+            SetTrackImage(_actualPlayedFile.File.Tag.Pictures);
         }
 
         #endregion
@@ -443,7 +436,7 @@ namespace MusicPlayer.WPF.ViewModels
         public void VolumeSliderValueChanged(int newValue)
         {
             ///MediaPlayer.Volume has scale between 0 and 1
-            _player.Volume = (double) newValue/100;
+            _player.Volume = (double)newValue / 100;
         }
 
         /// <summary>
@@ -452,8 +445,8 @@ namespace MusicPlayer.WPF.ViewModels
         /// <param name="newPosition">a new position of thumb</param>
         public void MusicSliderValueChanged(int newPosition)
         {
-            if(MusicSliderValue != _musicSliderValueHelper + 1)
-            _player.Position = TimeSpan.FromSeconds(newPosition);
+            if (MusicSliderValue != _musicSliderValueHelper + 1)
+                _player.Position = TimeSpan.FromSeconds(newPosition);
         }
 
         /// <summary>
@@ -466,13 +459,20 @@ namespace MusicPlayer.WPF.ViewModels
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             Files = FileInformation.CreateFilesList(files);
 
-            _player.Open(new Uri(files[0]));
-
-            
-           
         }
 
-        
+        /// <summary>
+        /// plays track selected from track list by user
+        /// </summary>
+        /// <param name="file"></param>
+        public void Play(FileInformation file)
+        {
+            _actualPlayedFile = file;
+            _player.Open(new Uri(_actualPlayedFile.FileUri));
+            _player.Play();
+            _timer.Start();
+            PlayIcon = _pauseCircleIcon;
+        }
 
         #endregion
     }

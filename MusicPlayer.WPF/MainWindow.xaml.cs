@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using MusicPlayer.WPF.Models;
 using MusicPlayer.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,7 @@ namespace MusicPlayer.WPF
 
             this.DataContext = new MainViewModel();
             _vm = (MainViewModel)DataContext;
-
-            TrackList.ItemsSource = _vm.Files;
+            
         }
 
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -48,11 +48,28 @@ namespace MusicPlayer.WPF
         private void Grid_Drop(object sender, DragEventArgs e)
         {
             _vm.File_Dropped(sender, e);
-            
+            TrackList.ItemsSource = _vm.Files;
         }
 
-        private void PlayButton_Loaded(object sender, RoutedEventArgs e)
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            var x = sender as ListViewItem;
+            _vm.Play(x.Content as FileInformation);
+        }
+
+        private void TrackListLostFocus(object sender, MouseButtonEventArgs e)
+        {
+            TrackList.UnselectAll();
+        }
+
+        private void ListViewItem_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                var x = sender as ListViewItem;
+                _vm.Play(x.Content as FileInformation);
+            }
 
         }
     }

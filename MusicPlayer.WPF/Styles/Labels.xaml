@@ -5,7 +5,7 @@
     <!-- song info label -->
     <Style x:Key="SongInfo" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{StaticResource SongInfoFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.SongInfo}"/>
         <Setter Property="Margin" Value="{StaticResource SongInfoMargin}"/>
         <Setter Property="Foreground" Value="{StaticResource ButtonSecondaryBrush}"/>
     </Style>
@@ -36,8 +36,8 @@
     <Style x:Key="BaseTrackDurationlabel" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="{StaticResource TrackLabelMargin}"/>
-        <Setter Property="FontSize" Value="{StaticResource TrackValueFontSize}"/>
+        <Setter Property="Margin" Value="{StaticResource Margins.TrackLabel}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.TrackValue}"/>
         <Setter Property="Width" Value="50"/>
     </Style>
 
@@ -51,26 +51,29 @@
 
     <Style x:Key="BaseTagLabel" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Padding" Value="{StaticResource TagLabelMargin}"/>
+        <Setter Property="Padding" Value="{StaticResource Margins.TagLabel}"/>
         <Setter Property="FontFamily" Value="Franklin Gothic"/>
     </Style>
 
     <Style x:Key="TitleTagLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource BaseTagLabel}">
-        <Setter Property="FontSize" Value="{StaticResource TitleTagLabelFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.TitleTagLabel}"/>
         <Setter Property="FontStyle" Value="Oblique"/>
     </Style>
 
     <Style x:Key="ArtistTagLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource BaseTagLabel}">
-        <Setter Property="FontSize" Value="{StaticResource ArtistTagLabelFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.ArtistTagLabel}"/>
     </Style>
 
     <Style x:Key="AlbumTagLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource BaseTagLabel}">
-        <Setter Property="FontSize" Value="{StaticResource AlbumTagLabelFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.AlbumTagLabel}"/>
     </Style>
 
-    <Style x:Key="LabelTrackViewItem" TargetType="{x:Type Label}">
-        <Setter Property="Padding" Value="{StaticResource ListViewItemPadding}"/>
+    <Style x:Key="ListViewLabel" TargetType="{x:Type Label}">
+        <Setter Property="Padding" Value="{StaticResource Margins.TrackLabel}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="red"/>
+        <Setter Property="Foreground" Value="Wheat"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
     </Style>
 </ResourceDictionary>

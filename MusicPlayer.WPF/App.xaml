@@ -8,11 +8,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <ResourceDictionary Source="Styles/Values.xaml"/>
-                <ResourceDictionary Source="UserControls/Storyboards.xaml"/>
+                <ResourceDictionary Source="Styles/Storyboards.xaml"/>
                 <ResourceDictionary Source="Styles/Others.xaml"/>
                 <ResourceDictionary Source="Styles/Sliders.xaml"/>
                 <ResourceDictionary Source="Styles/Labels.xaml"/>
                 <ResourceDictionary Source="Styles/ListViewItems.xaml"/>
+                <ResourceDictionary Source="Styles/GridViewColumnHeaders.xaml"/>
+                <ResourceDictionary Source="Styles/Scrollbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

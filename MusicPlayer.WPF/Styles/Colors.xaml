@@ -2,30 +2,87 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MusicPlayer.WPF.Styles">
 
-    <Color x:Key="BackgroundPrimaryColor">#090909</Color>
-    <Color x:Key="BackgroundAccentColor">#272727</Color>
+    <Color x:Key="Background.PrimaryColor">#090909</Color>
+    <Color x:Key="Background.AccentColor">#272727</Color>
     <Color x:Key="PrimaryColor">#D72323</Color>
+    <Color x:Key="SecondaryColor">#ff6f00</Color>
     <Color x:Key="AccentColor">#EEEEEE</Color>
-    <Color x:Key="ElementDisabledColor">#ACACAC</Color>
-    <Color x:Key="ElementDisabledAccentColor">#5A5F5C</Color>
-    <Color x:Key="SliderThumbColor">#ff6f00</Color>
+    <Color x:Key="ElementDisabled.Color">#ACACAC</Color>
+    <Color x:Key="ElementDisabled.AccentColor">#5A5F5C</Color>
+    <Color x:Key="ListViewItem.Color">#323132</Color>
 
-    <Color x:Key="ListViewItemEvenColor">#123456</Color>
-    <Color x:Key="ListViewItemOddColor">#654321</Color>
+    <Color x:Key="ScrollBarThumbLightColor"></Color>
 
-    <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource BackgroundPrimaryColor}"/>
-    <SolidColorBrush x:Key="BackgroundAccentBrush" Color="{StaticResource BackgroundAccentColor}"/>
+    <SolidColorBrush x:Key="Background.PrimaryBrush" Color="{StaticResource Background.PrimaryColor}"/>
+    <SolidColorBrush x:Key="Background.AccentBrush" Color="{StaticResource Background.AccentColor}"/>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource AccentColor}"/>
-    <SolidColorBrush x:Key="ElementDisabledBrush" Color="{StaticResource ElementDisabledColor}"/>
-    <SolidColorBrush x:Key="ElementDisabledAccentBrush" Color="{StaticResource ElementDisabledAccentColor}"/>
-    <SolidColorBrush x:Key="SliderThumbColorBrush" Color="{StaticResource SliderThumbColor}"/>
-    <SolidColorBrush x:Key="ListViewItemOddColorBrush" Color="{StaticResource ListViewItemOddColor}"/>
-    <SolidColorBrush x:Key="ListViewItemEvenColorBrush" Color="{StaticResource ListViewItemEvenColor}"/>
+    <SolidColorBrush x:Key="ElementDisabled.PrimaryBrush" Color="{StaticResource ElementDisabled.Color}"/>
+    <SolidColorBrush x:Key="ElementDisabled.AccentBrush" Color="{StaticResource ElementDisabled.AccentColor}"/>
+    <SolidColorBrush x:Key="SliderThumbColorBrush" Color="{StaticResource SecondaryColor}"/>
+    <SolidColorBrush x:Key="Fonts.ScrollBar" Color="{StaticResource AccentColor}"/>
 
-    <!--<LinearGradientBrush x:Key="gradient1" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.2" Color="{StaticResource BackgroundAccentColor}"/>
-        <GradientStop Offset="0.95" Color="{StaticResource BackgroundPrimaryColor}"/>
-    </LinearGradientBrush>-->
+
+    <LinearGradientBrush x:Key="Gradients.ColumnHeader" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.2" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.8" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.PrimaryColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Gradients.ColumnHeaderGipper" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0.0" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.3" Color="{StaticResource PrimaryColor}"/>
+        <GradientStop Offset="0.3" Color="{StaticResource PrimaryColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Gradients.ScrollBar.Vertical" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0.1" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.5" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.AccentColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Gradients.ScrollBar.Vertical.MouseOver" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0.1" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.5" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.AccentColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Gradients.ScrollBar.Horizontal" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.1" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.5" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.AccentColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="Gradients.ScrollBar.Horizontal.MouseOver" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.1" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.5" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.PrimaryColor}"/>
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="ColumnHeaderGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.2" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.8" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.PrimaryColor}"/>
+    </LinearGradientBrush>
+
+   
+
+
+    <LinearGradientBrush x:Key="DataGridGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="{StaticResource ListViewItem.Color}"/>
+        <GradientStop Offset="0.9" Color="{StaticResource Background.AccentColor}"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ListViewItemMouseOverGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="{StaticResource ListViewItem.Color}"/>
+        <GradientStop Offset="0.6" Color="{StaticResource Background.AccentColor}"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="ListViewItemSelectedGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0.0" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.6" Color="{StaticResource ListViewItem.Color}"/>
+    </LinearGradientBrush>
+
+
 
 </ResourceDictionary>

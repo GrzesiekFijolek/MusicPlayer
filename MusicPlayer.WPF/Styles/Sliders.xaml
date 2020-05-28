@@ -9,7 +9,7 @@
         <Setter Property="CornerRadius" Value="5,0,0,5"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource ElementDisabledBrush}"/>
+                <Setter Property="Background" Value="{StaticResource ElementDisabled.PrimaryBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="True">
                 <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
@@ -22,7 +22,7 @@
         <Setter Property="CornerRadius" Value="0,5,5,0"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource ElementDisabledBrush}"/>
+                <Setter Property="Background" Value="{StaticResource ElementDisabled.PrimaryBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="True">
                 <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
@@ -80,7 +80,7 @@
                             <Style TargetType="Rectangle">
                                 <Style.Triggers>
                                     <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Fill" Value="{StaticResource ElementDisabledAccentBrush}"/>
+                                        <Setter Property="Fill" Value="{StaticResource ElementDisabled.AccentBrush}"/>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="True">
                                         <Setter Property="Fill" Value="{StaticResource SliderThumbColorBrush}"/>
@@ -149,14 +149,14 @@
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Template" Value="{StaticResource TrackBarSlider}"/>
-                <Setter Property="Margin" Value="{StaticResource MusicSliderMargin}"/>
+                <Setter Property="Margin" Value="{StaticResource Margins.MusicSlider}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- Volume Slider -->
     <Style x:Key="VolumeSlider" TargetType="{x:Type Slider}" BasedOn="{StaticResource MusicSlider}">
-        <Setter Property="Margin" Value="{StaticResource VolumeSliderMargin}"/>
+        <Setter Property="Margin" Value="{StaticResource Margins.VolumeSlider}"/>
         <Setter Property="Width" Value="120"/>
     </Style>
 

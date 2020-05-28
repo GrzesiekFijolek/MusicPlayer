@@ -38,9 +38,21 @@ namespace MusicPlayer.WPF.Models
         public string Album { get; set; }
 
         /// <summary>
-        /// the title from track tag or the file name in case of empty tags
+        /// the title from track tag
         /// </summary>
         public string Title { get; set; }
+
+        private string _fileName;
+
+        /// <summary>
+        /// the file name 
+        /// </summary>
+        public string FileName
+        {
+            get { return _fileName; }
+            set { _fileName = value; }
+        }
+
 
         /// <summary>
         /// the track cover from tag
@@ -88,9 +100,11 @@ namespace MusicPlayer.WPF.Models
             else 
                 Artist = null;
             Album = File.Tag.Album ?? null;
-            Title = File.Tag.Title ?? Path.GetFileName(FileUri);
+            Title = File.Tag.Title ?? null;
 
-            if(File.Tag.Pictures == null)
+            FileName = Path.GetFileName(FileUri); 
+
+            if (File.Tag.Pictures == null)
             {
                 Image = null;
             }

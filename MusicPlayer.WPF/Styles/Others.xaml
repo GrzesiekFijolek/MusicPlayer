@@ -6,21 +6,21 @@
 
 
     <Style TargetType="{x:Type fa:FontAwesome}" x:Key="PlayButton">
-        <Setter Property="FontSize" Value="{StaticResource ButtonsFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.Buttons}"/>
         <Setter Property="Margin" Value="10"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource ElementDisabledBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource ElementDisabled.PrimaryBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="VolumeIcon" TargetType="{x:Type fa:FontAwesome}">
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="FontSize" Value="{StaticResource VolumeFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.Volume}"/>
         <Setter Property="Margin" Value="8"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -38,5 +38,14 @@
         <Setter Property="Height" Value="{StaticResource ImageSizeListViewItem}"/>
     </Style>
 
+    <Style TargetType="GridViewRowPresenter" >
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Margin" Value="10,0,10,0"/>
+    </Style>
 
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+    </Style>
+
+   
 </ResourceDictionary>
