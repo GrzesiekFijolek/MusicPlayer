@@ -6,16 +6,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:MusicPlayer.WPF.UserControls"
         xmlns:local="clr-namespace:MusicPlayer.WPF.ViewModels"
+        xmlns:window="clr-namespace:MusicPlayer.WPF"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel, IsDesignTimeCreatable=True}"
         MaxHeight="{Binding WindowHeigh}"
         MaxWidth="{Binding WindowWith}"
         Width="{Binding WindowWith}"
-        Height="{Binding WindowHeigh}"
-        ResizeMode="NoResize"  
+        Height="{Binding WindowHeigh}" 
         Title="{Binding AppName}"
-        Background="{StaticResource Background.PrimaryBrush}"
+        WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <Style TargetType="{x:Type window:MainWindow}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ResizeMode" Value="CanMinimize"/>
+            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="Background" Value="{StaticResource Background.AccentBrush}"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="AllowsTransparency" Value="True"/>
+            <Setter Property="WindowChrome.CaptionHeight" Value="{Binding ElementName=TitleBar}"/>
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0"
+                                  Name="TitleBar"
+                                  Background="{StaticResource Background.PrimaryBrush}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0"
+                                           Content="{TemplateBinding Title}"
+                                           Foreground="{StaticResource SecondaryBrush}"
+                                           Margin="{StaticResource Margins.WindowChrome}"
+                                           MouseLeftButtonDown="Grid_MouseLeftButtonDown"/>
+
+                                    <uc:PlayButton IconId="62161"
+                                                   Grid.Column="1"
+                                                   Command="{Binding MinimalizeCommand}"/>
+
+                                    <uc:PlayButton IconId="62163"
+                                                   Grid.Column="2"
+                                                   Command="{Binding CloseCommand}"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <ContentPresenter/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
     <Grid Background="{StaticResource Background.PrimaryBrush}"
                 AllowDrop="True"
@@ -220,6 +274,7 @@
 
     </Grid>
 
+   
 </Window>
 
 

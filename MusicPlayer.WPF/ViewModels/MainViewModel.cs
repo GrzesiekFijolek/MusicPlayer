@@ -34,6 +34,10 @@ namespace MusicPlayer.WPF.ViewModels
         private readonly int _pauseCircleIcon = 62091;
         private readonly int _playCircleIcon = 61764;
 
+        /// <summary>
+        /// needed for window state management
+        /// </summary>
+        private Window _window;
 
         /// <summary>
         /// it causes to play music
@@ -283,10 +287,16 @@ namespace MusicPlayer.WPF.ViewModels
 
         public ICommand PlayButtonCommand { get; set; }
 
+        public ICommand MinimalizeCommand { get; set; }
+
+        public ICommand CloseCommand { get; set; }
+
         #endregion
 
-        public MainViewModel()
+        public MainViewModel(Window window)
         {
+            _window = window;
+
             SetTimer();
             MusicSliderValue = 0;
             MusicSliderMaximum = 100;
@@ -296,6 +306,8 @@ namespace MusicPlayer.WPF.ViewModels
 
             PlayButtonCommand = new RelayCommand(PlayOrPause);
             OpenFileCommand = new RelayCommand(OpenFile);
+            MinimalizeCommand = new RelayCommand(Minimalize);
+            CloseCommand = new RelayCommand(() => _window.Close());
 
             _player.MediaOpened += _player_MediaOpened;
             Files = new ObservableCollection<FileInformation>();
@@ -304,6 +316,11 @@ namespace MusicPlayer.WPF.ViewModels
             TrackTitle = "Track title placeholder";
             TrackAlbum = "Track album placeholder";
             TrackArtist = "track artist placehiolder";
+        }
+
+        private void Minimalize()
+        {
+            _window.WindowState = WindowState.Minimized;
         }
 
 

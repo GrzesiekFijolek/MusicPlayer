@@ -28,7 +28,7 @@ namespace MusicPlayer.WPF
         {
             InitializeComponent();
 
-            this.DataContext = new MainViewModel();
+            this.DataContext = new MainViewModel(this);
             _vm = (MainViewModel)DataContext;
             
         }
@@ -71,6 +71,11 @@ namespace MusicPlayer.WPF
                 _vm.Play(x.Content as FileInformation);
             }
 
+        }
+
+        public void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }
