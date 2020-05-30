@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicPlayer.Library;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -155,12 +156,36 @@ namespace MusicPlayer.WPF.Models
 
         }
 
+        /// <summary>
+        /// creates collection of tracks informations from dropped or selected files
+        /// </summary>
+        /// <param name="files">selected files paths</param>
+        /// <returns></returns>
         public static ObservableCollection<FileInformation> CreateFilesList(string[] files)
         {
             var x = new ObservableCollection<FileInformation>();
             for(int i=0; i<files.Length; i++)
             {
                 FileInformation file = GetInstance(files[i]);
+
+                if (file != null) x.Add(file);
+            }
+
+            return x;
+        }
+
+        /// <summary>
+        /// creates collection of tracks informations from database
+        /// </summary>
+        /// <param name="lastOpeneds">files paths from database</param>
+        /// <returns></returns>
+        public static ObservableCollection<FileInformation> CreateFilesList(List<LastOpenedModel> lastOpeneds)
+        {
+            var x = new ObservableCollection<FileInformation>();
+
+            foreach(var item in lastOpeneds)
+            {
+                FileInformation file = GetInstance(item.FilePath);
 
                 if (file != null) x.Add(file);
             }

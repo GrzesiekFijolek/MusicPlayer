@@ -30,6 +30,7 @@ namespace MusicPlayer.WPF
 
             this.DataContext = new MainViewModel(this);
             _vm = (MainViewModel)DataContext;
+            TrackList.ItemsSource = _vm.Files;
             
         }
 

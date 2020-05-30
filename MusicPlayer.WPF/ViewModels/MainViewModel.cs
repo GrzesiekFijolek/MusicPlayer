@@ -1,5 +1,6 @@
 ﻿using FontAwesome.WPF;
 using Microsoft.Win32;
+using MusicPlayer.Library;
 using MusicPlayer.WPF.Models;
 using MusicPlayer.WPF.UserControls;
 using System;
@@ -271,8 +272,8 @@ namespace MusicPlayer.WPF.ViewModels
             set
             {
                 _files = value;
-                while (value == null || value.Count < 10)
-                    _files.Add(null);
+                //while (value == null || value.Count < 10)
+                //    _files.Add(null);
 
                 OnPropertyChanged(nameof(Files));
             }
@@ -296,7 +297,7 @@ namespace MusicPlayer.WPF.ViewModels
         public MainViewModel(Window window)
         {
             _window = window;
-
+            
             SetTimer();
             MusicSliderValue = 0;
             MusicSliderMaximum = 100;
@@ -307,10 +308,15 @@ namespace MusicPlayer.WPF.ViewModels
             PlayButtonCommand = new RelayCommand(PlayOrPause);
             OpenFileCommand = new RelayCommand(OpenFile);
             MinimalizeCommand = new RelayCommand(Minimalize);
-            CloseCommand = new RelayCommand(() => _window.Close());
+            CloseCommand = new RelayCommand(() => 
+            {
+                SaveTrackList();
+                _window.Close();
+            });
 
             _player.MediaOpened += _player_MediaOpened;
-            Files = new ObservableCollection<FileInformation>();
+
+            OpenLastTrackList();            
 
             //placehoilders
             TrackTitle = "Track title placeholder";
@@ -396,7 +402,8 @@ namespace MusicPlayer.WPF.ViewModels
                 string path = openFileDialog.FileName;
                 string[] s = { path };
 
-                Files = FileInformation.CreateFilesList(s);
+                //Files = FileInformation.CreateFilesList(s);
+                OpenLastTrackList();
             }
 
         }
@@ -440,6 +447,29 @@ namespace MusicPlayer.WPF.ViewModels
             SetTrackImage(_actualPlayedFile.File.Tag.Pictures);
         }
 
+        /// <summary>
+        /// saves actual tracck list to the database
+        /// </summary>
+        private void SaveTrackList()
+        {
+            var trackList = new List<LastOpenedModel>();
+
+            foreach(var item in Files)
+            {
+                trackList.Add(new LastOpenedModel() { FilePath = item.FileUri });
+            }
+
+            SQLiteDataAccess.SaveLastTrackList(trackList);
+        }
+
+        private void OpenLastTrackList()
+        {
+
+            var filePaths = SQLiteDataAccess.LoadLastTrackList();
+
+            Files = FileInformation.CreateFilesList(filePaths);
+        }
+
         #endregion
 
 
@@ -475,7 +505,7 @@ namespace MusicPlayer.WPF.ViewModels
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             Files = FileInformation.CreateFilesList(files);
-
+            
         }
 
         /// <summary>

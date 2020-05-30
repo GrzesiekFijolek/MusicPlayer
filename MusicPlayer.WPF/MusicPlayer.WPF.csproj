@@ -7,9 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Database.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <PackageReference Include="taglib" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MusicPlayer.Library\MusicPlayer.Library.csproj" />
   </ItemGroup>
 
 </Project>
