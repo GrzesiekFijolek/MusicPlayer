@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:MusicPlayer.WPF.UserControls"
         xmlns:local="clr-namespace:MusicPlayer.WPF.ViewModels"
+        xmlns:converter="clr-namespace:MusicPlayer.WPF.Converters"
         xmlns:window="clr-namespace:MusicPlayer.WPF"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel, IsDesignTimeCreatable=True}"
@@ -26,6 +27,7 @@
             <Setter Property="AllowsTransparency" Value="True"/>
             <Setter Property="WindowChrome.CaptionHeight" Value="{Binding ElementName=TitleBar}"/>
             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
@@ -37,7 +39,8 @@
 
                             <Grid Grid.Row="0"
                                   Name="TitleBar"
-                                  Background="{StaticResource Background.PrimaryBrush}">
+                                  Background="{StaticResource Background.PrimaryBrush}"
+                                  >
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -47,17 +50,18 @@
 
                                     <Label Grid.Column="0"
                                            Content="{TemplateBinding Title}"
-                                           Foreground="{StaticResource SecondaryBrush}"
-                                           Margin="{StaticResource Margins.WindowChrome}"
+                                           Style="{StaticResource TitleLabel}"
                                            MouseLeftButtonDown="Grid_MouseLeftButtonDown"/>
 
                                     <uc:PlayButton IconId="62161"
                                                    Grid.Column="1"
-                                                   Command="{Binding MinimalizeCommand}"/>
+                                                   Command="{Binding MinimalizeCommand}"
+                                                   Style="{StaticResource WindowControlButton}"/>
 
                                     <uc:PlayButton IconId="62163"
                                                    Grid.Column="2"
-                                                   Command="{Binding CloseCommand}"/>
+                                                   Command="{Binding CloseCommand}"
+                                                   Style="{StaticResource WindowControlButton}"/>
                                 </Grid>
                             </Grid>
 
@@ -73,14 +77,14 @@
 
     <Grid Background="{StaticResource Background.PrimaryBrush}"
                 AllowDrop="True"
-                Drop="Grid_Drop">
+                x:Name="MainGrid"
+                >
         
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         
@@ -97,12 +101,8 @@
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
                             MaxWidth="300">
-                    <Border BorderThickness="2"
-                            BorderBrush="Red"
-                            Margin="10,0,0,0">
-                        <Image Source="{Binding TrackImage}"
+                    <Image Source="{Binding TrackImage}"
                        Style="{StaticResource ActualTrackCoverImage}"/>
-                    </Border>
 
                     <StackPanel Orientation="Vertical"
                                 VerticalAlignment="Center">
@@ -127,7 +127,8 @@
 
                     <uc:PlayButton IconId="{Binding PlayIcon}"
                                    Command="{Binding PlayButtonCommand}"
-                                   IsEnabled="{Binding IsMusicTrackLoaded}"/>
+                                   IsEnabled="{Binding IsMusicTrackLoaded}"
+                                   />
 
                     <uc:PlayButton IconId="61521"
                                    IsEnabled="{Binding IsMusicTrackLoaded}"/>
@@ -194,83 +195,103 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="18"/>
+                <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="0" x:Name="Col1"/>
             <Grid Grid.Column="0" x:Name="Col2"/>
             <Grid Grid.Column="0" x:Name="Col3"/>
             <Grid Grid.Column="0" x:Name="Col4"/>
-            <Grid Grid.Column="0" x:Name="Col5"/>
 
         </Grid>
 
-        <ListView AlternationCount="2"
+        <Grid Grid.Row="3"
+              x:Name="ListViewRow"
+              Drop="Grid_Drop">
+            
+            <Border BorderBrush="{StaticResource Background.PrimaryBrush}"
+                     BorderThickness="0 1 0 1">
+                <ListView AlternationCount="2"
                   Name="TrackList"
-                  MaxHeight="300"
-                  Grid.Row="3"
-                  Margin="0"
-                  Padding="0"
-                  Background="Transparent"
-                  BorderThickness="0">
-     
-            <ListView.View>
-                
-            <GridView x:Name="Grid" >
-                
-                    <GridViewColumn Header="File Name" 
+                  MinHeight="{Binding ElementName=ListViewRow, Path=ActualHeight}"
+                  Style="{StaticResource TrackView}">
+
+                    <ListView.View>
+
+                        <GridView x:Name="Grid" >
+
+                            <GridViewColumn Header="File Name" 
                                     Width="{Binding ElementName=Col1, Path=ActualWidth}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding Path=FileName}"
-                                       Style="{StaticResource ListViewLabel}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Title"
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Style="{StaticResource ListViewLabel}">
+                                            <AccessText TextTrimming="WordEllipsis"
+                                                    Text="{Binding Path=FileName}"/>
+                                        </Label>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Title"
                                     Width="{Binding ElementName=Col2, Path=ActualWidth}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding Path=Title}"
-                                       Style="{StaticResource ListViewLabel}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                <GridViewColumn Header="Artist" 
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Style="{StaticResource ListViewLabel}">
+                                            <AccessText TextTrimming="WordEllipsis"
+                                                    Text="{Binding Path=Title}"/>
+                                        </Label>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Artist" 
                                 Width="{Binding ElementName=Col3, Path=ActualWidth}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding Path=Artist}"
-                                       Style="{StaticResource ListViewLabel}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                <GridViewColumn Header="Album" 
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Style="{StaticResource ListViewLabel}">
+                                            <AccessText TextTrimming="WordEllipsis"
+                                                    Text="{Binding Path=Artist}"/>
+                                        </Label>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Album" 
                                 Width="{Binding ElementName=Col4,Path=ActualWidth}">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Path=Album}"
-                                   Style="{StaticResource ListViewLabel}"/>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridView.ColumnHeaderContainerStyle>
-                    <Style TargetType="{x:Type GridViewColumnHeader}"
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Style="{StaticResource ListViewLabel}">
+                                            <AccessText TextTrimming="WordEllipsis"
+                                                    Text="{Binding Path=Album}"/>
+                                        </Label>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}"
                             BasedOn="{StaticResource GridViewColumnHeader}"/>
-                </GridView.ColumnHeaderContainerStyle>
-            </GridView>
-        </ListView.View>
+                            </GridView.ColumnHeaderContainerStyle>
+                        </GridView>
+                    </ListView.View>
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource ListView}">
-                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
-                    <EventSetter Event="KeyDown" Handler="ListViewItem_KeyDown"/>
-                </Style>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource ListView}">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                            <EventSetter Event="KeyDown" Handler="ListViewItem_KeyDown"/>
+                        </Style>
 
-            </ListView.ItemContainerStyle>
+                    </ListView.ItemContainerStyle>
 
-        </ListView>
-       
+                </ListView>
+
+            </Border>
+
+            <Border Background="{StaticResource Background.PrimaryBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding Files, Converter={converter:NullToVisibilityConverter}}">
+                <Label Content="Drag here music files"
+                   Style="{StaticResource EmptyTrackListLabel}"/>
+            </Border>
+
+        </Grid>
+
 
     </Grid>
 

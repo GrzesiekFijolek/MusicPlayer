@@ -4,15 +4,18 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     
     <!-- Fonts -->
-    <system:Double x:Key="Fonts.Buttons">32</system:Double>
+    <system:Double x:Key="Fonts.PlayButton">32</system:Double>
+    <system:Double x:Key="Fonts.WindowControlButton">28</system:Double>
     <system:Double x:Key="Fonts.Volume">28</system:Double>
     <system:Double x:Key="Fonts.SongInfo">20</system:Double>
     <system:Double x:Key="Fonts.TrackValue">14</system:Double>
     <system:Double x:Key="Fonts.ArtistTagLabel">14</system:Double>
     <system:Double x:Key="Fonts.TitleTagLabel">18</system:Double>
     <system:Double x:Key="Fonts.AlbumTagLabel">12</system:Double>
-    <system:Double x:Key="Fonts.DataGridColumn">13</system:Double>
-    <system:Double x:Key="Fonts.Title">15</system:Double>
+    <system:Double x:Key="Fonts.TrackListColumnHeader">15</system:Double>
+    <system:Double x:Key="Fonts.TrackListColumn">11</system:Double>
+    <system:Double x:Key="Fonts.Title">18</system:Double>
+    <system:Double x:Key="Fonts.EmptyTrackList">18</system:Double>
 
     <!-- Margins & Paddings-->
     <Thickness x:Key="Margins.SongInfo" Left="4" Top="4" Right="4" Bottom="4"/>

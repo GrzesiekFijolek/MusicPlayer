@@ -10,6 +10,8 @@
     <Color x:Key="ElementDisabled.Color">#ACACAC</Color>
     <Color x:Key="ElementDisabled.AccentColor">#5A5F5C</Color>
     <Color x:Key="ListViewItem.Color">#323132</Color>
+    <Color x:Key="ListView.Color">#242223</Color>
+    <Color x:Key="ListView.LightColor">#515251</Color>
 
     <Color x:Key="ScrollBarThumbLightColor"></Color>
 
@@ -21,17 +23,18 @@
     <SolidColorBrush x:Key="ElementDisabled.AccentBrush" Color="{StaticResource ElementDisabled.AccentColor}"/>
     <SolidColorBrush x:Key="SliderThumbColorBrush" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="Fonts.ScrollBar" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="Background.ListViewBrush" Color="{StaticResource ListView.Color}"/>
+    <SolidColorBrush x:Key="Background.ListViewLightBrush" Color="{StaticResource ListView.LightColor}"/>
 
 
     <LinearGradientBrush x:Key="Gradients.ColumnHeader" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.2" Color="{StaticResource Background.AccentColor}"/>
-        <GradientStop Offset="0.8" Color="{StaticResource Background.PrimaryColor}"/>
-        <GradientStop Offset="0.9" Color="{StaticResource Background.PrimaryColor}"/>
+        <GradientStop Offset="0.0" Color="{StaticResource Background.AccentColor}"/>
+        <GradientStop Offset="0.7" Color="{StaticResource ListView.Color}"/>
+        <GradientStop Offset="0.99" Color="{StaticResource PrimaryColor}"/>
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="Gradients.ColumnHeaderGipper" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Offset="0.0" Color="{StaticResource Background.AccentColor}"/>
-        <GradientStop Offset="0.3" Color="{StaticResource PrimaryColor}"/>
         <GradientStop Offset="0.3" Color="{StaticResource PrimaryColor}"/>
     </LinearGradientBrush>
 
@@ -60,16 +63,8 @@
     </LinearGradientBrush>
 
 
-    <LinearGradientBrush x:Key="ColumnHeaderGradient" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Offset="0.2" Color="{StaticResource Background.AccentColor}"/>
-        <GradientStop Offset="0.8" Color="{StaticResource Background.PrimaryColor}"/>
-        <GradientStop Offset="0.9" Color="{StaticResource Background.PrimaryColor}"/>
-    </LinearGradientBrush>
 
-   
-
-
-    <LinearGradientBrush x:Key="DataGridGradient" StartPoint="0,0" EndPoint="0,1">
+    <LinearGradientBrush x:Key="Gradients.ListViewItem" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Offset="0.0" Color="{StaticResource ListViewItem.Color}"/>
         <GradientStop Offset="0.9" Color="{StaticResource Background.AccentColor}"/>
     </LinearGradientBrush>

@@ -71,6 +71,12 @@ namespace MusicPlayer.WPF
                 var x = sender as ListViewItem;
                 _vm.Play(x.Content as FileInformation);
             }
+            else if(e.Key == Key.Delete)
+            {
+                var x = sender as ListViewItem;
+                _vm.DeleteSelectedTrack(x.Content as FileInformation);
+            }
+
 
         }
 

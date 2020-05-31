@@ -308,20 +308,16 @@ namespace MusicPlayer.WPF.ViewModels
             PlayButtonCommand = new RelayCommand(PlayOrPause);
             OpenFileCommand = new RelayCommand(OpenFile);
             MinimalizeCommand = new RelayCommand(Minimalize);
-            CloseCommand = new RelayCommand(() => 
-            {
-                SaveTrackList();
-                _window.Close();
-            });
+            CloseCommand = new RelayCommand(Close);
 
             _player.MediaOpened += _player_MediaOpened;
 
             OpenLastTrackList();            
 
             //placehoilders
-            TrackTitle = "Track title placeholder";
-            TrackAlbum = "Track album placeholder";
-            TrackArtist = "track artist placehiolder";
+            //TrackTitle = "Track title placeholder";
+            //TrackAlbum = "Track album placeholder";
+            //TrackArtist = "track artist placehiolder";
         }
 
         private void Minimalize()
@@ -329,6 +325,11 @@ namespace MusicPlayer.WPF.ViewModels
             _window.WindowState = WindowState.Minimized;
         }
 
+        private void Close()
+        {
+            SaveTrackList();
+            _window.Close();
+        }
 
         #region private methods
 
@@ -474,6 +475,12 @@ namespace MusicPlayer.WPF.ViewModels
 
 
         #region public methods
+
+        public void DeleteSelectedTrack(FileInformation file)
+        {
+            Files.Remove(file);
+            OnPropertyChanged(nameof(Files));
+        }
 
 
         /// <summary>

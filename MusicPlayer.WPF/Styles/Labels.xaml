@@ -2,35 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MusicPlayer.WPF.Styles">
 
-    <!-- song info label -->
-    <Style x:Key="SongInfo" TargetType="{x:Type Label}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FontSize" Value="{StaticResource Fonts.SongInfo}"/>
-        <Setter Property="Margin" Value="{StaticResource SongInfoMargin}"/>
-        <Setter Property="Foreground" Value="{StaticResource ButtonSecondaryBrush}"/>
-    </Style>
-
-    <!-- borders for SongInfoLabel -->
-    <Style x:Key="OuterBorderForInnerShadow" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="{StaticResource BackgroundAccentBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BackgroundPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="ClipToBounds" Value="True"/>
-    </Style>
-
-    <Style x:Key="InternalBorderForInnerShadow" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="10"/>
-        <Setter Property="Margin" Value="-12"/>
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect BlurRadius="20"
-                                  ShadowDepth="0"/>
-
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <!-- track duration labels -->
     <Style x:Key="BaseTrackDurationlabel" TargetType="{x:Type Label}">
@@ -68,12 +39,30 @@
         <Setter Property="FontSize" Value="{StaticResource Fonts.AlbumTagLabel}"/>
     </Style>
 
+    
+    
+    
     <Style x:Key="ListViewLabel" TargetType="{x:Type Label}">
         <Setter Property="Padding" Value="{StaticResource Margins.TrackLabel}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Wheat"/>
+        <Setter Property="Foreground" Value="{StaticResource SecondaryBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
+        <Setter Property="FontSize" Value="{StaticResource Fonts.TrackListColumn}"/>
+    </Style>
+
+    <Style x:Key="EmptyTrackListLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="{StaticResource Fonts.EmptyTrackList}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+    </Style>
+
+    <Style x:Key="TitleLabel" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource Fonts.Title}"/>
+        <Setter Property="Margin" Value="{StaticResource Margins.WindowChrome}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 </ResourceDictionary>

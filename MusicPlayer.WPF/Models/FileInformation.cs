@@ -17,7 +17,7 @@ namespace MusicPlayer.WPF.Models
     /// <summary>
     /// provides information taken from <see cref="TagLib.Tag"/> properties
     /// </summary>
-    class FileInformation
+    public class FileInformation
     {
         /// <summary>
         /// the file created from <see cref="FileUri"/>

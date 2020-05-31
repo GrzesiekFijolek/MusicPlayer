@@ -2,12 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MusicPlayer.WPF.Styles"
                     xmlns:fa="http://schemas.fontawesome.io/icons/"
+                    xmlns:uc="clr-namespace:MusicPlayer.WPF.UserControls"
                     
                     >
 
 
-    <Style TargetType="{x:Type fa:FontAwesome}" x:Key="PlayButton">
-        <Setter Property="FontSize" Value="{StaticResource Fonts.Buttons}"/>
+    <Style TargetType="{x:Type UserControl}" x:Key="PlayButton">
+        <Setter Property="FontSize" Value="{StaticResource Fonts.PlayButton}"/>
         <Setter Property="Margin" Value="10"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="True">
@@ -18,6 +19,12 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="WindowControlButton" TargetType="{x:Type UserControl}">
+        <Setter Property="FontSize" Value="{StaticResource Fonts.WindowControlButton}"/>
+        <Setter Property="Margin" Value="{StaticResource Margins.WindowChrome}"/>
+    </Style>
+
 
     <Style x:Key="VolumeIcon" TargetType="{x:Type fa:FontAwesome}">
         <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
@@ -32,12 +39,19 @@
     <Style x:Key="ActualTrackCoverImage" TargetType="{x:Type Image}">
         <Setter Property="Width" Value="{StaticResource ActualTrackCoverImageSize}"/>
         <Setter Property="Height" Value="{StaticResource ActualTrackCoverImageSize}"/>
+        <Setter Property="Margin" Value="10, 4, 0, 0"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="4"
+                                  Color="{StaticResource Background.PrimaryColor}"
+                                  ShadowDepth="0"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <Style x:Key="ImageListViewItem" TargetType="{x:Type Image}">
-        <Setter Property="Width" Value="{StaticResource ImageSizeListViewItem}"/>
-        <Setter Property="Height" Value="{StaticResource ImageSizeListViewItem}"/>
-    </Style>
+    
+
+
 
     <Style TargetType="GridViewRowPresenter" >
         <Setter Property="Height" Value="40"/>

@@ -5,8 +5,8 @@
     
 
     <Style x:Key="TrackView" TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="Transparent"/>
-        
+        <Setter Property="Background" Value="{StaticResource Background.AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
     
     
@@ -14,7 +14,9 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Rectangle Margin="2" StrokeDashArray="1 2" 
+                               SnapsToDevicePixels="true" StrokeThickness="1" 
+                               Stroke="{StaticResource SecondaryBrush}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -23,12 +25,11 @@
     
     <Style TargetType="{x:Type ListViewItem}" x:Key="ListView">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Padding" Value="4,1"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{StaticResource DataGridGradient}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Background.PrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource Gradients.ListViewItem}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -60,7 +61,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListViewItemSelectedGradient}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" TargetName="Bd"/>
-                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="BorderThickness" Value="1"/>
                             
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">

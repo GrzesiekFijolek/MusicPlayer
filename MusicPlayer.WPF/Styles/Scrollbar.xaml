@@ -16,9 +16,8 @@
                     <Border x:Name="border"
                         BorderThickness="1"
                         SnapsToDevicePixels="true"
-                        Background="{StaticResource Gradients.ScrollBar.Horizontal}"
-                        BorderBrush="Transparent"
-                        Margin="-1">
+                        Background="{StaticResource Background.ListViewBrush}"
+                        BorderBrush="{StaticResource Background.PrimaryBrush}">
                         <ContentPresenter x:Name="contentPresenter"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -60,9 +59,8 @@
                     <Border x:Name="border"
                         BorderThickness="1"
                         SnapsToDevicePixels="true"
-                        Background="{StaticResource Gradients.ScrollBar.Vertical}"
-                        BorderBrush="Transparent"
-                        Margin="-1">
+                        Background="{StaticResource Background.ListViewBrush}"
+                        BorderBrush="{StaticResource Background.PrimaryBrush}">
                         <ContentPresenter x:Name="contentPresenter"
                             Margin="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -95,6 +93,8 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Focusable" Value="false"/>
         <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Background.PrimaryBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -112,12 +112,11 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     
                     <Border x:Name="ThumbBorder"
-                            Margin="-1"
                             BorderThickness="1"
-                            BorderBrush="Transparent">
+                            BorderBrush="{StaticResource Background.PrimaryBrush}">
                         <Rectangle x:Name="rectangle"
                                SnapsToDevicePixels="True"
-                               Fill="{StaticResource Gradients.ScrollBar.Vertical}"
+                               Fill="{StaticResource Background.ListViewBrush}"
                                Height="{TemplateBinding Height}"
                                Width="{TemplateBinding Width}"/>
                     </Border>
@@ -141,21 +140,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border x:Name="ThumbBorder"
-                            Margin="-1"
-                            BorderBrush="Transparent"
+                            BorderBrush="{StaticResource Background.PrimaryBrush}"
                             BorderThickness="1">
                         <Rectangle x:Name="rectangle"
                                SnapsToDevicePixels="True"
-                               Fill="{StaticResource Gradients.ScrollBar.Horizontal}"
+                               Fill="{StaticResource Background.AccentBrush}"
                                Height="{TemplateBinding Height}"
                                Width="{TemplateBinding Width}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="ThumbBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                            
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="rectangle" Property="Fill" Value="{StaticResource Background.PrimaryBrush}" />
+                            <Setter TargetName="rectangle" Property="Fill" Value="{StaticResource Gradients.ScrollBar.Horizontal}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -167,7 +166,7 @@
     <Style TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
-        <Setter Property="Background" Value="{StaticResource Background.AccentBrush}" />
+        <Setter Property="Background" Value="{StaticResource Background.ListViewLightBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource Background.PrimaryBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="1,0" />
