@@ -53,12 +53,12 @@
                                            Style="{StaticResource TitleLabel}"
                                            MouseLeftButtonDown="Grid_MouseLeftButtonDown"/>
 
-                                    <uc:PlayButton IconId="62161"
+                                    <uc:FontAwesomeButton IconId="62161"
                                                    Grid.Column="1"
                                                    Command="{Binding MinimalizeCommand}"
                                                    Style="{StaticResource WindowControlButton}"/>
 
-                                    <uc:PlayButton IconId="62163"
+                                    <uc:FontAwesomeButton IconId="62163"
                                                    Grid.Column="2"
                                                    Command="{Binding CloseCommand}"
                                                    Style="{StaticResource WindowControlButton}"/>
@@ -92,15 +92,16 @@
               Background="{StaticResource Background.AccentBrush}"
               MouseDown="TrackListLostFocus">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
-                            MaxWidth="300">
+                            HorizontalAlignment="Left"
+                            >
                     <Image Source="{Binding TrackImage}"
                        Style="{StaticResource ActualTrackCoverImage}"/>
 
@@ -122,19 +123,29 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
 
-                    <uc:PlayButton IconId="61512"
-                               IsEnabled="{Binding IsMusicTrackLoaded}"/>
+                    <uc:FontAwesomeButton IconId="61512"
+                                   IsEnabled="{Binding IsPreviousButtomEnabled}"
+                                   Command="{Binding PlayPreviousCommand}"/>
 
-                    <uc:PlayButton IconId="{Binding PlayIcon}"
+                    <uc:FontAwesomeButton IconId="61517"
+                                          IsEnabled="{Binding IsMusicTrackLoaded}"
+                                          Command="{Binding StopCommand}"/>
+
+                    <uc:FontAwesomeButton IconId="{Binding PlayIcon}"
                                    Command="{Binding PlayButtonCommand}"
                                    IsEnabled="{Binding IsMusicTrackLoaded}"
-                                   />
+                                   >
+                    </uc:FontAwesomeButton>
 
-                    <uc:PlayButton IconId="61521"
-                                   IsEnabled="{Binding IsMusicTrackLoaded}"/>
+                    <uc:FontAwesomeButton IconId="61521"
+                                   IsEnabled="{Binding IsNexButtonEnabled}"
+                                   Command="{Binding PlayNextCommand}"
+                        />
 
-                    <uc:PlayButton IconId="61564"
-                                   Command="{Binding OpenFileCommand}"/>
+                    <uc:FontAwesomeButton IconId="61564"
+                                          Command="{Binding OpenFileCommand}"/>
+
+                    
 
                 </StackPanel>
             </Grid>

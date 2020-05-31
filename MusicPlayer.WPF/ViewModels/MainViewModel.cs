@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +41,8 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         private Window _window;
 
+        private FileInformation _actualPlayedFile;
+
         /// <summary>
         /// it causes to play music
         /// </summary>
@@ -49,11 +52,6 @@ namespace MusicPlayer.WPF.ViewModels
         /// required for changing music slider values
         /// </summary>
         private DispatcherTimer _timer;
-
-        /// <summary>
-        /// the file which is played by <see cref="_player"/>
-        /// </summary>
-        private FileInformation _actualPlayedFile;
 
 
         /// <summary>
@@ -77,12 +75,10 @@ namespace MusicPlayer.WPF.ViewModels
         /// </summary>
         public int WindowHeigh { get; set; } = 500;
 
-
         /// <summary>
         /// an application name
         /// </summary>
         public string AppName { get; set; } = "MP3 Music Player";
-
 
 
         private string _musicTrackDuration;
@@ -100,7 +96,6 @@ namespace MusicPlayer.WPF.ViewModels
         }
 
 
-
         private string _actualMusicTrackPosition;
         /// <summary>
         /// the actual track position in mm:ss
@@ -114,6 +109,31 @@ namespace MusicPlayer.WPF.ViewModels
                 OnPropertyChanged(nameof(ActualMusicTrackPosition));
             }
         }
+
+        private bool _isPreviousButtonEnabled;
+
+        public bool IsPreviousButtomEnabled
+        {
+            get { return _isPreviousButtonEnabled; }
+            set
+            {
+                _isPreviousButtonEnabled = value;
+                OnPropertyChanged(nameof(IsPreviousButtomEnabled));
+            }
+        }
+
+        private bool _isNextButtonEnabled;
+
+        public bool IsNexButtonEnabled
+        {
+            get { return _isNextButtonEnabled; }
+            set
+            {
+                _isNextButtonEnabled = value;
+                OnPropertyChanged(nameof(IsNexButtonEnabled));
+            }
+        }
+
 
 
 
@@ -292,12 +312,18 @@ namespace MusicPlayer.WPF.ViewModels
 
         public ICommand CloseCommand { get; set; }
 
+        public ICommand PlayNextCommand { get; set; }
+
+        public ICommand PlayPreviousCommand { get; set; }
+
+        public ICommand StopCommand { get; set; }
+
         #endregion
 
         public MainViewModel(Window window)
         {
             _window = window;
-            
+
             SetTimer();
             MusicSliderValue = 0;
             MusicSliderMaximum = 100;
@@ -309,15 +335,14 @@ namespace MusicPlayer.WPF.ViewModels
             OpenFileCommand = new RelayCommand(OpenFile);
             MinimalizeCommand = new RelayCommand(Minimalize);
             CloseCommand = new RelayCommand(Close);
+            PlayNextCommand = new RelayCommand(NextTrack, NextTrackEvaluator);
+            PlayPreviousCommand = new RelayCommand(PreviousTrack, PreviousTrackEvaluator);
+            StopCommand = new RelayCommand(StopPlayback);
 
             _player.MediaOpened += _player_MediaOpened;
 
-            OpenLastTrackList();            
+            OpenLastTrackList();
 
-            //placehoilders
-            //TrackTitle = "Track title placeholder";
-            //TrackAlbum = "Track album placeholder";
-            //TrackArtist = "track artist placehiolder";
         }
 
         private void Minimalize()
@@ -329,6 +354,22 @@ namespace MusicPlayer.WPF.ViewModels
         {
             SaveTrackList();
             _window.Close();
+        }
+
+        private void StopPlayback()
+        {
+            _player.Close();
+            _actualPlayedFile = null;
+            IsMusicTrackLoaded = false;
+            MusicTrackDuration = null;
+            ActualMusicTrackPosition = null;
+            TrackImage = null;
+            MusicTrackInfo = null;
+            _timer.Stop();
+            MusicSliderValue = 0;
+            TrackTitle = null;
+            TrackAlbum = null;
+            TrackArtist = null;
         }
 
         #region private methods
@@ -345,6 +386,49 @@ namespace MusicPlayer.WPF.ViewModels
                 MusicTrackDuration = _player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
                 SetTrackInfoFromTags();
             });
+        }
+
+        private void NextTrack()
+        {
+            int index = Files.IndexOf(_actualPlayedFile);
+
+            _actualPlayedFile = Files.ElementAt(index + 1);
+            _player.Open(new Uri(_actualPlayedFile.FileUri));
+            _player.Play();
+            _timer.Start();
+            PlayIcon = _pauseCircleIcon;
+            SetNextAndPreviousButtons();
+        }
+
+        private bool NextTrackEvaluator()
+        {
+            int index = Files.IndexOf(_actualPlayedFile);
+
+            if (Files.Count <= 1) return false;
+            else if (Files.Count == index + 1) return false;
+            else return true;
+        }
+
+        private void PreviousTrack()
+        {
+            int index = Files.IndexOf(_actualPlayedFile);
+
+            _actualPlayedFile = Files.ElementAt(index - 1);
+            _player.Open(new Uri(_actualPlayedFile.FileUri));
+            _player.Play();
+            _timer.Start();
+            PlayIcon = _pauseCircleIcon;
+
+            SetNextAndPreviousButtons();
+        }
+
+        private bool PreviousTrackEvaluator()
+        {
+            int index = Files.IndexOf(_actualPlayedFile);
+
+            if (Files.Count <= 1) return false;
+            if (index == 0) return false;
+            else return true;
         }
 
 
@@ -406,7 +490,6 @@ namespace MusicPlayer.WPF.ViewModels
                 //Files = FileInformation.CreateFilesList(s);
                 OpenLastTrackList();
             }
-
         }
 
         /// <summary>
@@ -471,6 +554,23 @@ namespace MusicPlayer.WPF.ViewModels
             Files = FileInformation.CreateFilesList(filePaths);
         }
 
+        private void SetNextAndPreviousButtons()
+        {
+            int index = Files.IndexOf(_actualPlayedFile);
+
+            if(Files.Count == 1 || Files == null)
+            {
+                IsPreviousButtomEnabled = false;
+                IsNexButtonEnabled = false;
+                return;
+            }
+
+            if (index == 0) IsPreviousButtomEnabled = false;
+            else IsPreviousButtomEnabled= true;
+
+            if (index == Files.Count - 1) IsNexButtonEnabled = false;
+            else IsNexButtonEnabled = true;
+        }
         #endregion
 
 
@@ -526,6 +626,8 @@ namespace MusicPlayer.WPF.ViewModels
             _player.Play();
             _timer.Start();
             PlayIcon = _pauseCircleIcon;
+            MusicSliderValue = 0;
+            SetNextAndPreviousButtons();
         }
 
         #endregion

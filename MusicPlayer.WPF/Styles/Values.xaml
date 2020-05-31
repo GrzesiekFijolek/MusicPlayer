@@ -4,7 +4,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     
     <!-- Fonts -->
-    <system:Double x:Key="Fonts.PlayButton">32</system:Double>
+    <system:Double x:Key="Fonts.PlayButton">25</system:Double>
     <system:Double x:Key="Fonts.WindowControlButton">28</system:Double>
     <system:Double x:Key="Fonts.Volume">28</system:Double>
     <system:Double x:Key="Fonts.SongInfo">20</system:Double>

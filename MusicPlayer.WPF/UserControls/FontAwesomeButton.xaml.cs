@@ -16,7 +16,7 @@ namespace MusicPlayer.WPF.UserControls
     /// <summary>
     /// Interaction logic for PlayButton.xaml
     /// </summary>
-    public partial class PlayButton : UserControl, ICommandSource
+    public partial class FontAwesomeButton : UserControl, ICommandSource
     {
         public string IconId
         {
@@ -27,12 +27,12 @@ namespace MusicPlayer.WPF.UserControls
         /// allows to set fontawesome icon on this control
         /// </summary>
         public static readonly DependencyProperty iconId =
-            DependencyProperty.Register("IconId", typeof(int), typeof(PlayButton),
+            DependencyProperty.Register("IconId", typeof(int), typeof(FontAwesomeButton),
                 new PropertyMetadata(new PropertyChangedCallback(SetIcon)));
 
         private static void SetIcon(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            (o as PlayButton).FontAwesome.Icon = (FontAwesome.WPF.FontAwesomeIcon)e.NewValue;
+            (o as FontAwesomeButton).FontAwesome.Icon = (FontAwesome.WPF.FontAwesomeIcon)e.NewValue;
         }
 
         public ICommand Command
@@ -42,7 +42,7 @@ namespace MusicPlayer.WPF.UserControls
         }
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(PlayButton), new UIPropertyMetadata(null));
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(FontAwesomeButton), new UIPropertyMetadata(null));
 
 
         public object CommandParameter
@@ -53,7 +53,7 @@ namespace MusicPlayer.WPF.UserControls
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), typeof(PlayButton), new UIPropertyMetadata(null));
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(FontAwesomeButton), new UIPropertyMetadata(null));
 
         public IInputElement CommandTarget
         {
@@ -63,7 +63,7 @@ namespace MusicPlayer.WPF.UserControls
 
         // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandTargetProperty =
-            DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(PlayButton), new UIPropertyMetadata(null));
+            DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(FontAwesomeButton), new UIPropertyMetadata(null));
 
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
@@ -85,7 +85,7 @@ namespace MusicPlayer.WPF.UserControls
             }
         }
 
-        public PlayButton()
+        public FontAwesomeButton()
         {
             InitializeComponent();
         }

@@ -9,13 +9,13 @@
 
     <Style TargetType="{x:Type UserControl}" x:Key="PlayButton">
         <Setter Property="FontSize" Value="{StaticResource Fonts.PlayButton}"/>
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="7"/>
         <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource ElementDisabled.PrimaryBrush}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
