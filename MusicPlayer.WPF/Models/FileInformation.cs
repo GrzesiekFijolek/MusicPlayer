@@ -105,7 +105,7 @@ namespace MusicPlayer.WPF.Models
 
             FileName = Path.GetFileName(FileUri); 
 
-            if (File.Tag.Pictures == null)
+            if (File.Tag.Pictures == null || File.Tag.Pictures.Length == 0)
             {
                 Image = null;
             }

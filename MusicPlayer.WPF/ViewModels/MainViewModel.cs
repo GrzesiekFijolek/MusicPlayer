@@ -487,36 +487,12 @@ namespace MusicPlayer.WPF.ViewModels
                 string path = openFileDialog.FileName;
                 string[] s = { path };
 
-                //Files = FileInformation.CreateFilesList(s);
+                
                 OpenLastTrackList();
             }
         }
 
-        /// <summary>
-        /// converts picture from <see cref="IPicture"/> to <see cref="System.Windows.Controls.Image"/>
-        /// </summary>
-        /// <param name="pictures"></param>
-        private void SetTrackImage(IPicture[] pictures)
-        {
-            IPicture picture = pictures[0];
-            MemoryStream memoryStream = new MemoryStream(picture.Data.Data);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            var image = System.Drawing.Image.FromStream(memoryStream);
-            var bitmap = new Bitmap(image);
-            IntPtr bmpPt = bitmap.GetHbitmap();
-            BitmapSource bitmapSource =
-             System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                   bmpPt,
-                   IntPtr.Zero,
-                   Int32Rect.Empty,
-                   BitmapSizeOptions.FromEmptyOptions());
-
-            //freeze bitmapSource and clear memory to avoid memory leaks
-            bitmapSource.Freeze();
-
-            TrackImage = bitmapSource;
-        }
+      
 
         /// <summary>
         /// sets actual track information from its tags
@@ -524,11 +500,10 @@ namespace MusicPlayer.WPF.ViewModels
         /// <param name="file"></param>
         private void SetTrackInfoFromTags()
         {
-            TrackArtist = _actualPlayedFile.File.Tag.Performers[0] ?? null;
-            TrackAlbum = _actualPlayedFile.File.Tag.Album ?? null;
-            TrackTitle = _actualPlayedFile.File.Tag.Title ?? null;
-
-            SetTrackImage(_actualPlayedFile.File.Tag.Pictures);
+            TrackArtist = _actualPlayedFile.Artist;
+            TrackAlbum = _actualPlayedFile.Album;
+            TrackTitle = _actualPlayedFile.Title ?? _actualPlayedFile.FileName;
+            TrackImage = _actualPlayedFile.Image;
         }
 
         /// <summary>
@@ -611,8 +586,9 @@ namespace MusicPlayer.WPF.ViewModels
         public void File_Dropped(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Files = FileInformation.CreateFilesList(files);
             
+            if(files != null) Files = FileInformation.CreateFilesList(files);
+
         }
 
         /// <summary>
